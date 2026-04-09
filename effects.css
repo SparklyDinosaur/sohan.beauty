@@ -1,0 +1,331 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAXIMUM PRIDE EFFECTS — every element gets the treatment
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Animated gradient body background ──────────────────────────────────── */
+body {
+  background: linear-gradient(
+    135deg,
+    #080010, #0a0015, #080014, #05000f, #080018,
+    #060010, #0a0012, #080010
+  );
+  background-size: 400% 400%;
+  animation: body-shift 18s ease infinite;
+}
+@keyframes body-shift {
+  0%   { background-position: 0% 0%; }
+  25%  { background-position: 100% 0%; }
+  50%  { background-position: 100% 100%; }
+  75%  { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* ── Rainbow animated border on EVERYTHING interactive ──────────────────── */
+.nav {
+  box-shadow:
+    0 0 30px rgba(170,0,255,0.3),
+    0 0 60px rgba(255,0,60,0.15),
+    inset 0 -1px 0 rgba(255,255,255,0.05);
+}
+
+/* ── Neon heading glow ──────────────────────────────────────────────────── */
+h1, h2, h3 {
+  animation: heading-glow 4s ease-in-out infinite alternate;
+}
+@keyframes heading-glow {
+  from { text-shadow: 0 0 20px rgba(255,77,173,0.3), 0 0 40px rgba(170,0,255,0.2); }
+  to   { text-shadow: 0 0 30px rgba(0,229,255,0.4), 0 0 60px rgba(41,121,255,0.2); }
+}
+
+/* ── Cards: multi-layer animated glow ───────────────────────────────────── */
+.card {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 4px 24px rgba(0,0,0,0.4);
+  animation: card-breathe 5s ease-in-out infinite alternate;
+}
+.card:nth-child(1) { animation-delay: 0s; }
+.card:nth-child(2) { animation-delay: 1.5s; }
+.card:nth-child(3) { animation-delay: 3s; }
+@keyframes card-breathe {
+  from { box-shadow: 0 0 0 1px rgba(255,0,60,0.1), 0 4px 24px rgba(0,0,0,0.4), 0 0 40px rgba(255,0,60,0.05); }
+  to   { box-shadow: 0 0 0 1px rgba(170,0,255,0.2), 0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(170,0,255,0.1); }
+}
+
+/* ── Blog posts: pulsing left border ────────────────────────────────────── */
+.blog-post::before {
+  background: linear-gradient(180deg,
+    var(--red), var(--orange), var(--yellow),
+    var(--green), var(--blue), var(--violet));
+  background-size: 100% 200%;
+  animation: border-slide 2s linear infinite;
+}
+@keyframes border-slide {
+  from { background-position: 0% 0%; }
+  to   { background-position: 0% 100%; }
+}
+.blog-post {
+  box-shadow: 0 0 30px rgba(0,0,0,0.3);
+  animation: post-glow 6s ease-in-out infinite alternate;
+}
+@keyframes post-glow {
+  from { box-shadow: 0 0 30px rgba(0,0,0,0.3), -4px 0 20px rgba(255,0,60,0.05); }
+  to   { box-shadow: 0 0 30px rgba(0,0,0,0.3), -4px 0 20px rgba(170,0,255,0.12); }
+}
+
+/* ── Flag cards: rainbow shimmer on hover ───────────────────────────────── */
+.flag-card {
+  animation: flag-float 4s ease-in-out infinite alternate;
+}
+.flag-card:nth-child(odd)  { animation-delay: 0s; }
+.flag-card:nth-child(even) { animation-delay: 2s; }
+@keyframes flag-float {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-5px); }
+}
+.flag-card:hover {
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.5),
+    0 0 40px rgba(255,77,173,0.3),
+    0 0 80px rgba(170,0,255,0.2);
+}
+
+/* ── Meme cards: neon glow rotation ────────────────────────────────────── */
+.meme-card {
+  animation: meme-pulse 7s ease-in-out infinite alternate;
+}
+.meme-card:nth-child(3n)   { animation-delay: 0s; }
+.meme-card:nth-child(3n+1) { animation-delay: 2.3s; }
+.meme-card:nth-child(3n+2) { animation-delay: 4.6s; }
+@keyframes meme-pulse {
+  0%   { box-shadow: 0 0 0 1px rgba(255,0,60,0.1); }
+  33%  { box-shadow: 0 0 20px rgba(255,140,0,0.15), 0 0 1px rgba(255,140,0,0.3); }
+  66%  { box-shadow: 0 0 20px rgba(170,0,255,0.15), 0 0 1px rgba(170,0,255,0.3); }
+  100% { box-shadow: 0 0 20px rgba(41,121,255,0.15), 0 0 1px rgba(41,121,255,0.3); }
+}
+
+/* ── Rainbow bar: thicker + stronger ───────────────────────────────────── */
+.rainbow-bar {
+  height: 10px;
+  box-shadow: 0 0 20px rgba(255,0,60,0.5), 0 0 40px rgba(170,0,255,0.3);
+}
+.rainbow-bar.small { height: 6px; }
+
+/* ── Nav logo: chromatic shimmer ────────────────────────────────────────── */
+.nav-logo {
+  animation: logo-shimmer 3s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 12px rgba(255,77,173,0.6));
+}
+@keyframes logo-shimmer {
+  from { filter: drop-shadow(0 0 12px rgba(255,77,173,0.6)); }
+  to   { filter: drop-shadow(0 0 20px rgba(0,229,255,0.7)); }
+}
+
+/* ── Hero photo: prismatic ring ─────────────────────────────────────────── */
+.pride-ring {
+  animation: spin-ring 3s linear infinite;
+  box-shadow: 0 0 30px rgba(255,0,60,0.5), 0 0 60px rgba(170,0,255,0.4);
+}
+.pride-ring-2 {
+  animation: spin-ring 5s linear infinite reverse;
+  box-shadow: 0 0 50px rgba(41,121,255,0.4);
+}
+@keyframes spin-ring { to { transform: rotate(360deg); } }
+
+/* ── Gradient text: brighter + faster shimmer ───────────────────────────── */
+.gradient-text {
+  animation: text-shimmer 2.5s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(255,77,173,0.5));
+}
+
+/* ── Buttons: neon pulse ────────────────────────────────────────────────── */
+.btn-primary {
+  animation: btn-pulse 2.5s ease-in-out infinite alternate;
+}
+@keyframes btn-pulse {
+  from { box-shadow: 0 0 20px rgba(255,20,147,0.4), 0 0 40px rgba(255,20,147,0.2); }
+  to   { box-shadow: 0 0 35px rgba(170,0,255,0.6), 0 0 70px rgba(170,0,255,0.3); }
+}
+.btn-secondary { animation: btn-pulse2 3s ease-in-out infinite alternate; }
+@keyframes btn-pulse2 {
+  from { box-shadow: 0 0 10px rgba(41,121,255,0.2); }
+  to   { box-shadow: 0 0 25px rgba(0,229,255,0.4); }
+}
+
+/* ── Pride marquee: glow ────────────────────────────────────────────────── */
+.pride-marquee {
+  background: linear-gradient(90deg, #0a0018, #000d22, #0a0018);
+  border-bottom: 1px solid rgba(255,77,173,0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,77,173,0.1);
+}
+
+/* ── Flag strip mini flags: rainbow ring on hover ───────────────────────── */
+.mini-flag {
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  animation: mini-flag-breathe 3s ease-in-out infinite alternate;
+}
+.mini-flag:nth-child(even) { animation-delay: 1.5s; }
+@keyframes mini-flag-breathe {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(-3px) scale(1.03); }
+}
+
+/* ── Flag strip heading ─────────────────────────────────────────────────── */
+.flag-strip h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  animation: heading-glow 3s ease-in-out infinite alternate;
+}
+
+/* ── Stat numbers: neon glow ────────────────────────────────────────────── */
+.stat-num {
+  filter: drop-shadow(0 0 12px currentColor);
+  animation: stat-pulse 2s ease-in-out infinite alternate;
+}
+@keyframes stat-pulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.05); }
+}
+
+/* ── Quote section: animated left border ───────────────────────────────── */
+blockquote {
+  animation: quote-glow 5s ease-in-out infinite alternate;
+}
+@keyframes quote-glow {
+  from { box-shadow: -4px 0 20px rgba(255,0,60,0.2), 0 0 40px rgba(0,0,0,0.2); }
+  to   { box-shadow: -4px 0 30px rgba(170,0,255,0.3), 0 0 60px rgba(0,0,0,0.3); }
+}
+
+/* ── Section dividers: bright animated ─────────────────────────────────── */
+.section-divider {
+  height: 5px;
+  box-shadow: 0 0 20px rgba(255,0,60,0.4), 0 0 40px rgba(170,0,255,0.3);
+}
+
+/* ── Footer flags: bounce ───────────────────────────────────────────────── */
+.footer-flags {
+  animation: footer-bounce 2s ease-in-out infinite alternate;
+}
+@keyframes footer-bounce {
+  from { transform: scale(1) translateY(0); }
+  to   { transform: scale(1.05) translateY(-3px); }
+}
+
+/* ── UC9 logo: extra glow ───────────────────────────────────────────────── */
+.uc9-svg-logo {
+  filter:
+    drop-shadow(0 0 20px rgba(255,0,60,0.6))
+    drop-shadow(0 0 40px rgba(170,0,255,0.5))
+    drop-shadow(0 0 80px rgba(41,121,255,0.3));
+  animation: uc9-logo-pulse 3s ease-in-out infinite alternate;
+}
+@keyframes uc9-logo-pulse {
+  from { filter: drop-shadow(0 0 20px rgba(255,0,60,0.6)) drop-shadow(0 0 40px rgba(170,0,255,0.5)); }
+  to   { filter: drop-shadow(0 0 30px rgba(0,229,255,0.7)) drop-shadow(0 0 60px rgba(255,77,173,0.5)); }
+}
+
+/* ── Vibe pills: floating ───────────────────────────────────────────────── */
+.vibe-pill {
+  animation: pill-float 3s ease-in-out infinite alternate;
+}
+.vibe-pill:nth-child(odd)  { animation-delay: 0s; }
+.vibe-pill:nth-child(even) { animation-delay: 1.5s; }
+@keyframes pill-float {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(-5px) scale(1.04); }
+}
+
+/* ── Page headers: aurora shimmer ───────────────────────────────────────── */
+.page-header::before {
+  animation: aurora 8s ease-in-out infinite alternate;
+}
+
+/* ── Value cards on UC9 page ────────────────────────────────────────────── */
+.value-card {
+  animation: value-breathe 5s ease-in-out infinite alternate;
+}
+.value-card:nth-child(1) { animation-delay: 0s; }
+.value-card:nth-child(2) { animation-delay: 0.8s; }
+.value-card:nth-child(3) { animation-delay: 1.6s; }
+.value-card:nth-child(4) { animation-delay: 2.4s; }
+.value-card:nth-child(5) { animation-delay: 3.2s; }
+.value-card:nth-child(6) { animation-delay: 4s; }
+@keyframes value-breathe {
+  from { box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 4px 20px rgba(0,0,0,0.3); }
+  to   { box-shadow: 0 0 0 1px rgba(255,77,173,0.15), 0 8px 32px rgba(0,0,0,0.4), 0 0 30px rgba(170,0,255,0.08); }
+}
+
+/* ── Hero stripe: faster pulse ──────────────────────────────────────────── */
+.hero-stripe span {
+  animation: stripe-pulse 1.2s ease-in-out infinite alternate;
+  border-radius: 4px;
+}
+
+/* ── Emoji in nav: spin ─────────────────────────────────────────────────── */
+.nav-flags {
+  animation: nav-flag-spin 8s linear infinite;
+  display: inline-block;
+  filter: drop-shadow(0 0 6px rgba(255,77,173,0.6));
+}
+@keyframes nav-flag-spin {
+  0%   { filter: drop-shadow(0 0 6px rgba(255,0,60,0.6)); }
+  33%  { filter: drop-shadow(0 0 6px rgba(0,229,255,0.6)); }
+  66%  { filter: drop-shadow(0 0 6px rgba(170,0,255,0.6)); }
+  100% { filter: drop-shadow(0 0 6px rgba(255,0,60,0.6)); }
+}
+
+/* ── Post tags: pulsing gradient ────────────────────────────────────────── */
+.post-tag {
+  background-size: 200% 200%;
+  animation: tag-shift 3s ease infinite;
+}
+@keyframes tag-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+/* ── Meme emoji: rainbow spin ───────────────────────────────────────────── */
+.meme-emoji {
+  display: block;
+  animation: emoji-spin 6s ease-in-out infinite;
+}
+@keyframes emoji-spin {
+  0%   { transform: scale(1) rotate(0deg); }
+  25%  { transform: scale(1.15) rotate(-8deg); }
+  50%  { transform: scale(1) rotate(0deg); }
+  75%  { transform: scale(1.15) rotate(8deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* ── Hero floating emojis: more dramatic ────────────────────────────────── */
+.float-emoji {
+  animation-duration: 4s;
+  filter: drop-shadow(0 0 8px rgba(255,77,173,0.6));
+  font-size: 2.5rem;
+}
+.float-emoji:nth-child(1) { animation-duration: 3.5s; font-size: 3rem; }
+.float-emoji:nth-child(2) { animation-duration: 5s;   font-size: 2rem; }
+.float-emoji:nth-child(3) { animation-duration: 4.2s; font-size: 2.8rem; }
+.float-emoji:nth-child(4) { animation-duration: 3.8s; font-size: 3.5rem; }
+.float-emoji:nth-child(5) { animation-duration: 4.8s; font-size: 2.2rem; }
+.float-emoji:nth-child(6) { animation-duration: 3.2s; font-size: 2.5rem; }
+
+/* ── Card icons: bounce ─────────────────────────────────────────────────── */
+.card-icon {
+  animation: icon-bounce 2.5s ease-in-out infinite alternate;
+  display: inline-block;
+}
+@keyframes icon-bounce {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(-8px) scale(1.1); }
+}
+
+/* ── About strip: stronger glow ─────────────────────────────────────────── */
+.about-strip {
+  box-shadow: inset 0 0 80px rgba(170,0,255,0.1), inset 0 0 40px rgba(255,0,60,0.05);
+}
+
+/* ── Scrollbar: thicker + brighter ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb {
+  box-shadow: 0 0 8px rgba(255,77,173,0.5);
+}
