@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Letters — sohan.beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="effects.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .letters-grid {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .letter {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 40px 44px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .letter:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 50px rgba(0,0,0,.4), 0 0 40px rgba(170,0,255,.12);
+    }
+    /* Animated rainbow left bar */
+    .letter::before {
+      content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
+      background:linear-gradient(180deg,#FF003C,#FF8C00,#FFE500,#00C853,#2979FF,#AA00FF);
+      background-size:100% 200%;animation:border-slide 2s linear infinite;
+    }
+    @keyframes border-slide{to{background-position:0 100%}}
+    /* Watermark heart */
+    .letter::after {
+      content:'💌';font-size:9rem;
+      position:absolute;right:-10px;bottom:-20px;
+      opacity:0.04;pointer-events:none;user-select:none;
+    }
+
+    .letter-header {
+      display:flex;align-items:center;gap:14px;margin-bottom:20px;
+    }
+    .letter-seal {
+      width:52px;height:52px;border-radius:50%;
+      background:linear-gradient(135deg,#FF003C,#FF8C00,#FFE500,#00C853,#2979FF,#AA00FF);
+      background-size:200% 200%;animation:seal-spin 4s ease infinite;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.5rem;flex-shrink:0;
+    }
+    @keyframes seal-spin{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+    .letter-meta {}
+    .letter-to {
+      font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:700;
+    }
+    .letter-date {
+      font-size:.8rem;color:#555577;margin-top:2px;
+    }
+
+    .letter h2 {
+      font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:900;
+      margin-bottom:16px;line-height:1.25;
+    }
+    .letter p {
+      font-family:'Playfair Display',serif;font-style:italic;
+      color:#c0c0e0;font-size:1.02rem;line-height:1.85;margin-bottom:14px;
+    }
+    .letter p:last-of-type { margin-bottom:0; }
+    .letter-sign {
+      margin-top:24px;
+      font-family:'Playfair Display',serif;font-weight:700;font-style:normal;
+      font-size:1.1rem;
+      background:linear-gradient(90deg,#FF4DAD,#AA00FF,#2979FF);
+      background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      animation:shimmer 3s linear infinite;
+    }
+    @keyframes shimmer{to{background-position:200% center}}
+
+    .letter-tags {
+      display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;
+    }
+    .letter-tag {
+      padding:4px 14px;border-radius:20px;font-size:.72rem;font-weight:700;
+      text-transform:uppercase;letter-spacing:.06em;
+      border:1px solid rgba(255,255,255,0.1);color:#8888bb;
+      background:rgba(255,255,255,0.03);
+    }
+
+    /* Opening quote */
+    .intro-quote {
+      text-align:center;padding:0 24px 16px;
+      font-family:'Playfair Display',serif;font-style:italic;
+      color:var(--muted);font-size:1.1rem;max-width:600px;margin:0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+  <div class="rainbow-bar"></div>
+
+  <div class="pride-marquee" aria-hidden="true">
+    <span class="marquee-inner">
+      💌 &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💖 &nbsp; 🌹 &nbsp; 💌 &nbsp; ❤️ &nbsp; 💝 &nbsp; 💗 &nbsp; 💌 &nbsp;
+      💌 &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💖 &nbsp; 🌹 &nbsp; 💌 &nbsp; ❤️ &nbsp; 💝 &nbsp; 💗 &nbsp; 💌 &nbsp;
+      💌 &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💖 &nbsp; 🌹 &nbsp; 💌 &nbsp; ❤️ &nbsp; 💝 &nbsp; 💗 &nbsp; 💌 &nbsp;
+    </span>
+  </div>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">sohan.beauty</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="uc9.html">UC9</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="flags.html">Pride Flags</a></li>
+      <li><a href="memes.html">Memes</a></li>
+      <li><a href="loveletters.html">Love Letters</a></li>
+      <li><a href="pong.html">🏓 Pong</a></li>
+      <li><a href="runawayfromsohan.html">🏃 Run!</a></li>
+    </ul>
+    <div class="nav-flags">🏳️‍🌈🏳️‍⚧️💖</div>
+  </nav>
+
+  <div class="page-header">
+    <h1>💌 <span class="gradient-text">Love Letters</span></h1>
+    <p>Letters to the world, to the community, to love itself. Written by Sohan — proudly, openly, unapologetically gay.</p>
+  </div>
+
+  <div class="rainbow-bar small"></div>
+
+  <p class="intro-quote">"To love and be loved is to feel the sun from both sides." — David Viscott</p>
+
+  <div class="letters-grid">
+
+    <article class="letter">
+      <div class="letter-header">
+        <div class="letter-seal">🌈</div>
+        <div class="letter-meta">
+          <div class="letter-to">To: Every Gay Kid Who Felt Alone</div>
+          <div class="letter-date">April 2026</div>
+        </div>
+      </div>
+      <h2>You Were Never Broken</h2>
+      <p>
+        I know what it's like to lie awake at night feeling like there's something fundamentally
+        wrong with you. Like you're a glitch. Like you got the wrong settings installed at birth.
+        I need you to know — and I need you to hear this clearly — there is nothing wrong with you.
+        There never was.
+      </p>
+      <p>
+        The world got it wrong. Not you. The thing they told you was a flaw is actually a gift.
+        The love you're capable of, the way you see beauty in unexpected places, the depth of
+        feeling that comes with being different — that is not a burden. That is your power.
+      </p>
+      <p>
+        Somewhere out there is a version of your life that is so full of joy it would make
+        your current self weep. A chosen family who loves you fiercely. A community who gets it.
+        People who will celebrate every single version of you. I promise.
+        You just have to stay long enough to find them.
+      </p>
+      <div class="letter-sign">With all my love, Sohan 🌈</div>
+      <div class="letter-tags">
+        <span class="letter-tag">💜 Community</span>
+        <span class="letter-tag">🏳️‍🌈 Pride</span>
+        <span class="letter-tag">✨ Hope</span>
+      </div>
+    </article>
+
+    <article class="letter">
+      <div class="letter-header">
+        <div class="letter-seal">💜</div>
+        <div class="letter-meta">
+          <div class="letter-to">To: A Future Lover</div>
+          <div class="letter-date">April 2026</div>
+        </div>
+      </div>
+      <h2>I Don't Know You Yet But I Already Know You're Worth It</h2>
+      <p>
+        I haven't met you yet. But I've thought about you — the way you probably laugh too loud
+        at your own jokes, the playlist you have on at 2am, the way your eyes look when you
+        talk about something you really love.
+      </p>
+      <p>
+        I want to know all of it. Every embarrassing story. Every song that makes you cry.
+        The thing you're afraid to tell people on a first date but tell me anyway by the third.
+        I want to know what you looked like at sixteen when you were figuring yourself out,
+        and who you've become since, and who you're still becoming.
+      </p>
+      <p>
+        I'm not in a rush. Love at its best doesn't rush. But when I find you, I'm going to
+        love you so loudly and so well that you'll wonder how you ever doubted you deserved it.
+        Because you do. Unequivocally. Completely. With rainbow confetti.
+      </p>
+      <div class="letter-sign">Saving you a seat, Sohan 💜</div>
+      <div class="letter-tags">
+        <span class="letter-tag">💖 Romance</span>
+        <span class="letter-tag">🌹 Love</span>
+        <span class="letter-tag">💫 Future</span>
+      </div>
+    </article>
+
+    <article class="letter">
+      <div class="letter-header">
+        <div class="letter-seal">🏳️‍🌈</div>
+        <div class="letter-meta">
+          <div class="letter-to">To: The Straight People Who Supported Me</div>
+          <div class="letter-date">March 2026</div>
+        </div>
+      </div>
+      <h2>Thank You For Showing Up Without Being Asked</h2>
+      <p>
+        You know who you are. The friends who never made it weird. Who put the pride flag on
+        their Instagram story in June and kept it in their heart all year. Who shut down the
+        homophobic joke at the table before I even had to decide whether to react.
+      </p>
+      <p>
+        I know it cost you something — the comfort of staying quiet, the ease of going along.
+        I know it wasn't always convenient. I know you didn't do it for credit. That's exactly
+        why I want to give you some.
+      </p>
+      <p>
+        You made more difference than you know. Every time someone like you chose the harder,
+        kinder path, you made the world I live in slightly safer. You reminded me that love
+        crosses every line people try to draw. You're part of my story, and I'm so glad you are.
+      </p>
+      <div class="letter-sign">Genuinely grateful, Sohan 🏳️‍🌈</div>
+      <div class="letter-tags">
+        <span class="letter-tag">🤍 Allyship</span>
+        <span class="letter-tag">💙 Gratitude</span>
+        <span class="letter-tag">🏳️‍🌈 Pride</span>
+      </div>
+    </article>
+
+    <article class="letter">
+      <div class="letter-header">
+        <div class="letter-seal">✨</div>
+        <div class="letter-meta">
+          <div class="letter-to">To: Myself, Age 15</div>
+          <div class="letter-date">February 2026</div>
+        </div>
+      </div>
+      <h2>Stop Trying So Hard to Fit Inside a Box That Was Never Built for You</h2>
+      <p>
+        I know you're exhausted. Performing straightness is the most tiring thing I have ever
+        done, and I did it for years. The laughing at jokes that made me feel sick. The
+        deliberate looking the wrong way. The calculated amount of interest in girls.
+      </p>
+      <p>
+        Here's what I wish I could tell you: the box was always too small. It was small for
+        everyone who ever tried to fit into it. And outside the box — out here where I am now —
+        it's warmer than you think. There are people here who will love you for exactly what
+        you are. Not despite it. Because of it.
+      </p>
+      <p>
+        The coming out you're so afraid of? It's going to feel like the first full breath
+        you've taken in years. You are going to be so okay. More than okay. You are going to
+        be Sohan. Fully. Loudly. Finally. And it's going to be beautiful.
+      </p>
+      <div class="letter-sign">Love you more than you know, Sohan ✨</div>
+      <div class="letter-tags">
+        <span class="letter-tag">💫 Self-love</span>
+        <span class="letter-tag">🌈 Coming Out</span>
+        <span class="letter-tag">💪 Growth</span>
+      </div>
+    </article>
+
+    <article class="letter">
+      <div class="letter-header">
+        <div class="letter-seal">💖</div>
+        <div class="letter-meta">
+          <div class="letter-to">To: The UC9 Group Chat</div>
+          <div class="letter-date">April 2026</div>
+        </div>
+      </div>
+      <h2>You Are My Chosen Family and I Will Embarrass You With How Much I Love You</h2>
+      <p>
+        I'm writing this at an hour when most people are asleep, and the group chat has gone
+        quiet for once, and I just want to say: I love you all so much it's genuinely
+        unhinged. Like clinically. Someone should study it.
+      </p>
+      <p>
+        You are the people who showed up. Not just when it was easy — when it wasn't.
+        When I needed someone to sit with me in the hard parts. When I needed to be silly
+        without explanation. When I needed to be celebrated for absolutely nothing at all.
+        You were there for all of it.
+      </p>
+      <p>
+        UC9 isn't a group. It's a feeling. It's the specific feeling of being known and loved
+        at the same time, which is the rarest thing in the world and I don't take it for
+        granted for a single second. Thank you. Embarrassingly, overwhelmingly, thank you.
+      </p>
+      <div class="letter-sign">Forever yours, Sohan 💖 (please don't screenshot this)</div>
+      <div class="letter-tags">
+        <span class="letter-tag">💜 UC9</span>
+        <span class="letter-tag">🏠 Chosen Family</span>
+        <span class="letter-tag">💫 Forever</span>
+      </div>
+    </article>
+
+  </div>
+
+  <footer class="footer">
+    <div class="rainbow-bar small"></div>
+    <div class="footer-flags" aria-hidden="true">🏳️‍🌈 🏳️‍⚧️ ❤️‍🔥 💜 💙 💛 💖</div>
+    <p>Made with 🏳️‍🌈 by <strong>Sohan</strong> &nbsp;·&nbsp; sohan.beauty</p>
+  </footer>
+
+  <script src="pride.js"></script>
+  <script src="easter-eggs.js"></script>
+</body>
+</html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Run Away From Sohan — sohan.beauty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;overflow:hidden;background:#05050f}
+    body{font-family:'Inter',system-ui,sans-serif;color:#f0f0ff;display:flex;flex-direction:column}
+
+    /* NAV */
+    .top-nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 20px;background:rgba(5,5,15,0.97);
+      border-bottom:1px solid rgba(255,255,255,0.06);flex-shrink:0;
+    }
+    .top-nav a{color:#6666aa;text-decoration:none;font-size:.82rem;font-weight:600;transition:color .2s}
+    .top-nav a:hover{color:#f0f0ff}
+    .top-logo{
+      font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;
+      background:linear-gradient(90deg,#FF4DAD,#AA00FF,#2979FF);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .top-logo-link{text-decoration:none}
+    .nav-links-mini{display:flex;gap:16px;list-style:none}
+    @media(max-width:500px){.nav-links-mini{display:none}}
+
+    /* LEVEL BAR */
+    .level-bar{
+      display:flex;align-items:center;justify-content:center;gap:16px;
+      padding:6px 16px;background:#08081a;flex-shrink:0;
+      font-size:.78rem;font-weight:700;letter-spacing:.05em;color:#555577;
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .level-badge{
+      padding:3px 12px;border-radius:20px;background:linear-gradient(90deg,#FF4DAD,#AA00FF);
+      color:#fff;font-size:.78rem;font-weight:800;
+    }
+    .lives{color:#FF4DAD;font-size:1rem;letter-spacing:3px}
+
+    /* GAME WRAP */
+    .game-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:hidden;padding:4px 8px 4px}
+
+    /* CANVAS */
+    #gameCanvas{
+      display:block;border-radius:10px;
+      border:2px solid rgba(170,0,255,0.3);
+      touch-action:none;
+    }
+
+    /* MOBILE CONTROLS */
+    .mobile-controls{
+      display:none;
+      flex-shrink:0;padding:8px 12px;gap:10px;
+      align-items:center;justify-content:space-between;
+      width:100%;max-width:460px;
+    }
+    @media(max-width:800px),(pointer:coarse){.mobile-controls{display:flex}}
+    .ctrl-group{display:flex;gap:8px}
+    .ctrl-btn{
+      width:52px;height:52px;border-radius:12px;
+      background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+      color:#f0f0ff;font-size:1.3rem;font-weight:700;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;user-select:none;-webkit-user-select:none;
+      transition:background .1s;touch-action:none;
+    }
+    .ctrl-btn:active,.ctrl-btn.pressed{background:rgba(170,0,255,0.35)}
+    .ctrl-jump{
+      width:64px;height:64px;border-radius:50%;
+      background:linear-gradient(135deg,#FF1493,#AA00FF);
+      font-size:.8rem;font-weight:800;letter-spacing:.03em;
+      border:none;color:#fff;
+    }
+
+    /* OVERLAYS */
+    .overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:24px;text-align:center;
+    }
+    .overlay.hidden{display:none}
+    .ov-title{
+      font-family:'Playfair Display',serif;font-size:clamp(1.6rem,5vw,2.6rem);font-weight:900;
+      margin-bottom:10px;
+      background:linear-gradient(90deg,#FF003C,#FF8C00,#FFE500,#00C853,#2979FF,#AA00FF);
+      background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;animation:shimmer 2s linear infinite;
+    }
+    @keyframes shimmer{to{background-position:200% center}}
+    .ov-sub{font-size:.92rem;color:#9999bb;max-width:360px;line-height:1.7;margin-bottom:6px}
+    .ov-emoji{font-size:3.5rem;margin-bottom:10px;animation:pop .4s ease}
+    @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+    .ov-btn{
+      margin-top:14px;padding:12px 32px;
+      background:linear-gradient(135deg,#FF1493,#AA00FF);
+      color:#fff;border:none;border-radius:50px;
+      font-size:.92rem;font-weight:700;cursor:pointer;
+      font-family:'Inter',sans-serif;transition:transform .2s,box-shadow .2s;
+    }
+    .ov-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,20,147,.5)}
+    .ov-btn-secondary{
+      margin-top:8px;padding:10px 26px;
+      background:transparent;border:1px solid rgba(255,255,255,0.2);
+      color:#9999bb;border-radius:50px;font-size:.85rem;font-weight:600;
+      cursor:pointer;font-family:'Inter',sans-serif;transition:border-color .2s,color .2s;
+    }
+    .ov-btn-secondary:hover{border-color:#AA00FF;color:#f0f0ff}
+
+    /* ACHIEVEMENTS */
+    .achievement-toast{
+      position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(60px);
+      background:linear-gradient(135deg,#1a0030,#0a0020);
+      border:1px solid #AA00FF;border-radius:14px;
+      padding:12px 20px;z-index:8888;
+      display:flex;align-items:center;gap:10px;
+      transition:transform .4s ease,opacity .4s ease;opacity:0;pointer-events:none;
+      white-space:nowrap;
+    }
+    .achievement-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+    .ach-icon{font-size:1.4rem}
+    .ach-text{font-size:.82rem;font-weight:700}
+    .ach-text strong{display:block;color:#FF4DAD}
+    .ach-text span{color:#8888bb;font-size:.75rem}
+
+    .hint-bar{text-align:center;font-size:.7rem;color:#2a2a55;padding:2px;flex-shrink:0}
+    .hint-bar span{color:#444466}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="index.html" class="top-logo-link"><span class="top-logo">sohan.beauty</span></a>
+  <ul class="nav-links-mini">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="pong.html">🏓 Pong</a></li>
+    <li><a href="memes.html">Memes</a></li>
+  </ul>
+  <a href="index.html">← Home</a>
+</nav>
+
+<!-- LEVEL BAR -->
+<div class="level-bar">
+  <span id="ui-level" class="level-badge">Level 1</span>
+  <span>Lives: <span class="lives" id="ui-lives">❤️❤️❤️</span></span>
+  <span id="ui-escaped">Escaped: <strong id="ui-esc-count">0</strong>/3</span>
+</div>
+
+<!-- GAME -->
+<div class="game-wrap">
+  <canvas id="gameCanvas"></canvas>
+</div>
+
+<!-- MOBILE CONTROLS -->
+<div class="mobile-controls">
+  <div class="ctrl-group">
+    <button class="ctrl-btn" id="btn-left">◀</button>
+    <button class="ctrl-btn" id="btn-right">▶</button>
+  </div>
+  <button class="ctrl-btn ctrl-jump" id="btn-jump">JUMP</button>
+</div>
+
+<p class="hint-bar"><span>Arrow keys / WASD</span> · <span>Space = Jump</span> · <span>Reach the exit ➡</span></p>
+
+<!-- ACHIEVEMENT TOAST -->
+<div class="achievement-toast" id="ach-toast">
+  <span class="ach-icon" id="ach-icon">🏆</span>
+  <div class="ach-text">
+    <strong id="ach-name">Achievement!</strong>
+    <span id="ach-desc">You did it</span>
+  </div>
+</div>
+
+<!-- START OVERLAY -->
+<div class="overlay" id="start-overlay">
+  <div class="ov-emoji">🏃‍♂️</div>
+  <div class="ov-title">Run Away From Sohan!</div>
+  <p class="ov-sub">Sohan is flirting — and chasing. Reach the exit on each level before he catches you. 5 levels of gay chaos await.</p>
+  <button class="ov-btn" id="start-btn">Start Running 🌈</button>
+</div>
+
+<!-- LEVEL COMPLETE OVERLAY -->
+<div class="overlay hidden" id="levelcomplete-overlay">
+  <div class="ov-emoji" id="lc-emoji">✨</div>
+  <div class="ov-title" id="lc-title">You Escaped!</div>
+  <p class="ov-sub" id="lc-sub">Sohan is devastated.</p>
+  <button class="ov-btn" id="next-btn">Next Level →</button>
+</div>
+
+<!-- GAME OVER OVERLAY -->
+<div class="overlay hidden" id="gameover-overlay">
+  <div class="ov-emoji">💔</div>
+  <div class="ov-title">Sohan Caught You!</div>
+  <p class="ov-sub" id="go-sub">You ran out of lives. Sohan is delighted. You are not.</p>
+  <button class="ov-btn" id="retry-btn">Try Again 🏃</button>
+  <button class="ov-btn-secondary" id="go-home-btn">Back to Home</button>
+</div>
+
+<!-- WIN OVERLAY -->
+<div class="overlay hidden" id="win-overlay">
+  <div class="ov-emoji">🏳️‍🌈</div>
+  <div class="ov-title">You Survived All 5 Levels!</div>
+  <p class="ov-sub">Sohan is heartbroken. You are free. Temporarily. He'll be back.</p>
+  <button class="ov-btn" id="win-restart-btn">Play Again</button>
+  <button class="ov-btn-secondary" id="win-home-btn">Back to Home</button>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ── CANVAS SETUP ─────────────────────────────────────────────────────── */
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const GW = 460, GH = 320;
+
+function resize() {
+  const mobileCtrlH = window.innerWidth <= 800 ? 80 : 0;
+  const avW = Math.min(window.innerWidth - 16, GW * 1.4);
+  const avH = Math.min(window.innerHeight - 120 - mobileCtrlH, GH * 1.4);
+  const sc = Math.min(avW / GW, avH / GH);
+  canvas.width = Math.floor(GW * sc);
+  canvas.height = Math.floor(GH * sc);
+  canvas._sc = sc;
+}
+resize();
+window.addEventListener('resize', () => { resize(); });
+const SC = () => canvas._sc || 1;
+
+/* ── COLOURS ──────────────────────────────────────────────────────────── */
+const PRIDE = ['#FF003C','#FF8C00','#FFE500','#00C853','#2979FF','#AA00FF','#FF4DAD'];
+
+/* ── ACHIEVEMENTS ─────────────────────────────────────────────────────── */
+const ACHIEVEMENTS = {
+  speedrun:   { name:'Speedrun King', desc:'Escape in under 10 seconds', icon:'⚡', earned:false },
+  close_call: { name:'Close Call',    desc:'Escape with Sohan right behind you', icon:'😰', earned:false },
+  ladder_pro: { name:'Ladder Pro',    desc:'Use 5 ladders in one level', icon:'🪜', earned:false },
+  lvl3:       { name:'Halfway There', desc:'Reach Level 3', icon:'🌈', earned:false },
+  survivor:   { name:'Survivor',      desc:'Beat the game', icon:'🏆', earned:false },
+  untouchable:{ name:'Untouchable',   desc:'Win a level without losing a life', icon:'👑', earned:false },
+  pacifist:   { name:'Graceful',      desc:'Clear Level 1 on first try', icon:'✨', earned:false },
+};
+const EARNED_KEY = 'sohan_run_achievements';
+let earnedSet = new Set(JSON.parse(localStorage.getItem(EARNED_KEY) || '[]'));
+
+function saveAchievements() {
+  localStorage.setItem(EARNED_KEY, JSON.stringify([...earnedSet]));
+}
+
+function unlock(id) {
+  if (earnedSet.has(id)) return; // never award twice
+  earnedSet.add(id);
+  saveAchievements();
+  const a = ACHIEVEMENTS[id];
+  showToast(a.icon, a.name, a.desc);
+}
+
+let toastTimer = null;
+function showToast(icon, name, desc) {
+  const t = document.getElementById('ach-toast');
+  document.getElementById('ach-icon').textContent = icon;
+  document.getElementById('ach-name').textContent = name;
+  document.getElementById('ach-desc').textContent = desc;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ── SOHAN TAUNTS ─────────────────────────────────────────────────────── */
+const TAUNTS = [
+  "Wait up, I just want to talk 💜",
+  "You're so cute when you run 😍",
+  "Come back! I made you a playlist 🎵",
+  "I literally just want to hold hands 🏳️‍🌈",
+  "Is this a first date?? 💖",
+  "You can't outrun gay magic ✨",
+  "I'm catching feelings AND catching you 💅",
+  "My cardio is immaculate btw 👑",
+  "Wait — is this flirting? This feels like flirting 🌈",
+  "Slow down! I just want to be your boyfriend 😘",
+  "You're making my heart race 💗",
+  "We're SO good together can't you see 😭",
+  "I've been chasing you since Level 1 🏃",
+  "Babe PLEASE 💜💜💜",
+  "You're literally my dream guy/girl/person 🌈",
+];
+
+/* ── LEVEL DEFINITIONS ────────────────────────────────────────────────── */
+// Platform: {x,y,w,h}
+// Ladder: {x,y,h} — x=left edge, y=top, h=height
+// Exit: {x,y,w,h}
+const LEVELS = [
+  { // 1 — gentle intro
+    bg: '#080814',
+    platforms: [
+      {x:0,   y:290, w:460, h:30},  // ground
+      {x:60,  y:230, w:100, h:14},
+      {x:220, y:190, w:100, h:14},
+      {x:340, y:150, w:100, h:14},
+    ],
+    ladders: [
+      {x:100, y:230, h:60},
+      {x:280, y:190, h:50},
+      {x:400, y:150, h:50},
+    ],
+    exit: {x:420, y:120, w:30, h:30},
+    sohanSpeed: 1.4,
+    sohanStartX: 20,
+    playerStartX: 30,
+    playerStartY: 250,
+    escapesNeeded: 1,
+    tauntFreq: 200,
+  },
+  { // 2 — more platforms, faster
+    bg: '#08100a',
+    platforms: [
+      {x:0,   y:290, w:180, h:14},
+      {x:220, y:290, w:240, h:14},
+      {x:80,  y:240, w:90,  h:14},
+      {x:220, y:210, w:90,  h:14},
+      {x:350, y:180, w:90,  h:14},
+      {x:100, y:160, w:80,  h:14},
+      {x:320, y:130, w:110, h:14},
+      {x:0,   y:310, w:460, h:10},
+    ],
+    ladders: [
+      {x:110, y:240, h:50},
+      {x:280, y:210, h:60},
+      {x:390, y:180, h:40},
+      {x:140, y:160, h:50},
+      {x:370, y:130, h:50},
+    ],
+    exit: {x:400, y:100, w:30, h:30},
+    sohanSpeed: 2.0,
+    sohanStartX: 10,
+    playerStartX: 30,
+    playerStartY: 270,
+    escapesNeeded: 2,
+    tauntFreq: 160,
+  },
+  { // 3 — tighter gaps
+    bg: '#100808',
+    platforms: [
+      {x:0,   y:300, w:120, h:14},
+      {x:160, y:300, w:300, h:14},
+      {x:40,  y:255, w:70,  h:14},
+      {x:160, y:240, w:70,  h:14},
+      {x:280, y:220, w:70,  h:14},
+      {x:380, y:195, w:70,  h:14},
+      {x:60,  y:175, w:80,  h:14},
+      {x:200, y:160, w:80,  h:14},
+      {x:330, y:140, w:100, h:14},
+      {x:10,  y:120, w:70,  h:14},
+      {x:200, y:100, w:200, h:14},
+    ],
+    ladders: [
+      {x:70,  y:255, h:45},
+      {x:200, y:240, h:60},
+      {x:310, y:220, h:60},
+      {x:410, y:195, h:45},
+      {x:100, y:175, h:45},
+      {x:240, y:160, h:55},
+      {x:370, y:140, h:45},
+      {x:40,  y:120, h:50},
+      {x:300, y:100, h:60},
+    ],
+    exit: {x:360, y:70, w:30, h:30},
+    sohanSpeed: 2.6,
+    sohanStartX: 10,
+    playerStartX: 20,
+    playerStartY: 270,
+    escapesNeeded: 2,
+    tauntFreq: 130,
+  },
+  { // 4 — very fast, complex
+    bg: '#0a0a00',
+    platforms: [
+      {x:0,   y:300, w:90,  h:14},
+      {x:140, y:300, w:80,  h:14},
+      {x:280, y:300, w:180, h:14},
+      {x:50,  y:260, w:60,  h:12},
+      {x:160, y:248, w:60,  h:12},
+      {x:270, y:236, w:60,  h:12},
+      {x:370, y:220, w:80,  h:12},
+      {x:30,  y:200, w:70,  h:12},
+      {x:160, y:188, w:70,  h:12},
+      {x:280, y:172, w:70,  h:12},
+      {x:380, y:155, w:70,  h:12},
+      {x:50,  y:138, w:80,  h:12},
+      {x:200, y:120, w:80,  h:12},
+      {x:340, y:105, w:100, h:12},
+      {x:80,  y:85,  w:80,  h:12},
+      {x:230, y:65,  w:200, h:12},
+    ],
+    ladders: [
+      {x:80,  y:260, h:40},{x:190,y:248,h:52},{x:300,y:236,h:64},{x:400,y:220,h:50},
+      {x:60,  y:200, h:60},{x:200,y:188,h:60},{x:310,y:172,h:60},{x:410,y:155,h:50},
+      {x:90,  y:138, h:50},{x:240,y:120,h:60},{x:390,y:105,h:60},{x:120,y:85, h:50},
+      {x:350, y:65,  h:60},
+    ],
+    exit: {x:390, y:35, w:30, h:30},
+    sohanSpeed: 3.2,
+    sohanStartX: 10,
+    playerStartX: 20,
+    playerStartY: 270,
+    escapesNeeded: 3,
+    tauntFreq: 100,
+  },
+  { // 5 — near impossible
+    bg: '#060008',
+    platforms: [
+      {x:0,   y:305, w:70,  h:10},
+      {x:110, y:305, w:60,  h:10},
+      {x:230, y:305, w:60,  h:10},
+      {x:360, y:305, w:100, h:10},
+      {x:30,  y:272, w:50,  h:10},
+      {x:130, y:260, w:50,  h:10},
+      {x:240, y:248, w:50,  h:10},
+      {x:350, y:235, w:50,  h:10},
+      {x:20,  y:218, w:60,  h:10},
+      {x:140, y:206, w:60,  h:10},
+      {x:265, y:192, w:60,  h:10},
+      {x:380, y:178, w:70,  h:10},
+      {x:40,  y:162, w:60,  h:10},
+      {x:170, y:148, w:60,  h:10},
+      {x:300, y:132, w:60,  h:10},
+      {x:400, y:118, w:55,  h:10},
+      {x:50,  y:102, w:70,  h:10},
+      {x:200, y:85,  w:70,  h:10},
+      {x:340, y:68,  w:80,  h:10},
+      {x:100, y:50,  w:60,  h:10},
+      {x:270, y:35,  w:180, h:10},
+    ],
+    ladders: [
+      {x:55,y:272,h:33},{x:155,y:260,h:45},{x:265,y:248,h:57},{x:375,y:235,h:45},
+      {x:40,y:218,h:54},{x:170,y:206,h:54},{x:295,y:192,h:56},{x:415,y:178,h:47},
+      {x:70,y:162,h:46},{x:200,y:148,h:44},{x:330,y:132,h:46},{x:430,y:118,h:44},
+      {x:90,y:102,h:46},{x:240,y:85, h:57},{x:380,y:68, h:55},{x:130,y:50, h:48},
+      {x:380,y:35, h:55},
+    ],
+    exit: {x:400, y:5, w:30, h:30},
+    sohanSpeed: 4.2,
+    sohanStartX: 5,
+    playerStartX: 15,
+    playerStartY: 280,
+    escapesNeeded: 3,
+    tauntFreq: 70,
+  },
+];
+
+/* ── GAME STATE ───────────────────────────────────────────────────────── */
+let currentLevel = 0;
+let lives = 3;
+let escapesThisLevel = 0;
+let gameRunning = false;
+let levelStartTime = 0;
+let laddersUsed = 0;
+let livesLostThisLevel = 0;
+let level1FirstTry = true;
+
+let player = {x:0,y:0,vx:0,vy:0,w:14,h:22,onGround:false,onLadder:false,ladderX:0};
+let sohan  = {x:0,y:0,vx:0,vy:0,w:16,h:26,onGround:false,onLadder:false,ladderX:0,
+              taunt:'',tauntTimer:0,rainbowT:0,bobT:0,
+              targetPlatform:null,climbDir:0};
+let caught = false;
+let levelComplete = false;
+
+const keys = {};
+const mobileKeys = {left:false,right:false,jump:false};
+
+/* ── PORTRAIT ─────────────────────────────────────────────────────────── */
+const portrait = new Image();
+portrait.src = 'assets/sohan.jpg';
+portrait.onerror = () => {};
+
+/* ── HELPERS ──────────────────────────────────────────────────────────── */
+function getLevelData() { return LEVELS[currentLevel]; }
+
+function initLevel() {
+  const ld = getLevelData();
+  caught = false; levelComplete = false;
+  escapesThisLevel = 0; laddersUsed = 0; livesLostThisLevel = 0;
+  levelStartTime = Date.now();
+  sohan.taunt = ''; sohan.tauntTimer = 0;
+
+  player.x = ld.playerStartX;
+  player.y = ld.playerStartY;
+  player.vx = 0; player.vy = 0;
+  player.onGround = false; player.onLadder = false;
+
+  sohan.x = ld.sohanStartX;
+  sohan.y = ld.playerStartY;
+  sohan.vx = 0; sohan.vy = 0;
+  sohan.onGround = false; sohan.onLadder = false;
+
+  updateUI();
+}
+
+function updateUI() {
+  document.getElementById('ui-level').textContent = `Level ${currentLevel+1}`;
+  const hearts = '❤️'.repeat(Math.max(0, lives));
+  document.getElementById('ui-lives').textContent = hearts || '💀';
+  const ld = getLevelData();
+  document.getElementById('ui-esc-count').textContent = `${escapesThisLevel}/${ld.escapesNeeded}`;
+}
+
+/* ── PHYSICS ──────────────────────────────────────────────────────────── */
+const GRAVITY = 0.55;
+const JUMP_VY = -10;
+const PLAYER_SPD = 3.2;
+
+function platformsOf(ld) { return ld.platforms; }
+function laddersOf(ld)   { return ld.ladders; }
+
+function resolvePlatformY(entity, ld) {
+  const plats = platformsOf(ld);
+  entity.onGround = false;
+  for (const p of plats) {
+    const ex = entity.x, ew = entity.w, ey = entity.y, eh = entity.h;
+    if (ex + ew > p.x && ex < p.x + p.w) {
+      // landing from above
+      if (ey + eh > p.y && ey + eh < p.y + p.h + 12 && entity.vy >= 0) {
+        entity.y = p.y - eh;
+        entity.vy = 0;
+        entity.onGround = true;
+      }
+    }
+  }
+  // world floor
+  if (entity.y + entity.h > GH) {
+    entity.y = GH - entity.h;
+    entity.vy = 0;
+    entity.onGround = true;
+  }
+  // world left wall
+  if (entity.x < 0) entity.x = 0;
+  if (entity.x + entity.w > GW) entity.x = GW - entity.w;
+}
+
+function getNearbyLadder(entity, ladders) {
+  for (const l of ladders) {
+    const ec = entity.x + entity.w / 2;
+    if (ec > l.x && ec < l.x + 12 && entity.y + entity.h > l.y && entity.y < l.y + l.h) {
+      return l;
+    }
+  }
+  return null;
+}
+
+/* ── PLAYER UPDATE ────────────────────────────────────────────────────── */
+function updatePlayer(ld) {
+  const left  = keys['ArrowLeft']  || keys['a'] || keys['A'] || mobileKeys.left;
+  const right = keys['ArrowRight'] || keys['d'] || keys['D'] || mobileKeys.right;
+  const jump  = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || mobileKeys.jump;
+
+  const nearLadder = getNearbyLadder(player, laddersOf(ld));
+
+  if (nearLadder && (keys['ArrowUp'] || keys['w'] || keys['W'] || mobileKeys.jump)) {
+    if (!player.onLadder) laddersUsed++;
+    player.onLadder = true;
+    player.ladderX = nearLadder.x - (player.w - 12) / 2;
+  }
+  if (nearLadder && (keys['ArrowDown'] || keys['s'] || keys['S'])) {
+    player.onLadder = true;
+    player.ladderX = nearLadder.x - (player.w - 12) / 2;
+  }
+
+  if (player.onLadder && nearLadder) {
+    player.x = player.ladderX;
+    player.vx = 0; player.vy = 0;
+    if (keys['ArrowUp']   || keys['w'] || keys['W'] || mobileKeys.jump) player.vy = -2.5;
+    if (keys['ArrowDown'] || keys['s'] || keys['S']) player.vy = 2.5;
+    if (player.y <= nearLadder.y || player.y + player.h >= nearLadder.y + nearLadder.h + player.h) {
+      player.onLadder = false;
+    }
+  } else {
+    player.onLadder = false;
+    if (left)  player.vx = -PLAYER_SPD;
+    else if (right) player.vx = PLAYER_SPD;
+    else player.vx *= 0.75;
+
+    if (jump && player.onGround) player.vy = JUMP_VY;
+    player.vy += GRAVITY;
+  }
+
+  player.x += player.vx;
+  player.y += player.vy;
+  resolvePlatformY(player, ld);
+
+  // Track ladder achievement
+  if (laddersUsed >= 5) unlock('ladder_pro');
+}
+
+/* ── SOHAN AI UPDATE ─────────────────────────────────────────────────── */
+function updateSohan(ld) {
+  const spd = ld.sohanSpeed;
+  sohan.rainbowT = (sohan.rainbowT + 0.03) % 1;
+  sohan.bobT += 0.08;
+
+  // horizontal chase
+  const dx = player.x - sohan.x;
+  if (Math.abs(dx) > 2) sohan.vx = Math.sign(dx) * spd;
+  else sohan.vx = 0;
+
+  // ladder logic — if player is above, climb ladders
+  const nearLadder = getNearbyLadder(sohan, laddersOf(ld));
+  const playerAbove = player.y < sohan.y - 20;
+
+  if (nearLadder && playerAbove) {
+    sohan.onLadder = true;
+    sohan.ladderX = nearLadder.x - (sohan.w - 12) / 2;
+  }
+
+  if (sohan.onLadder && nearLadder) {
+    sohan.x = sohan.ladderX;
+    sohan.vx = 0; sohan.vy = -spd * 0.9;
+    if (sohan.y <= nearLadder.y) sohan.onLadder = false;
+  } else {
+    sohan.onLadder = false;
+    if (!playerAbove && sohan.onGround) {
+      // jump toward player if on same platform level
+      if (Math.abs(dx) > 30 && sohan.onGround && Math.random() < 0.015) {
+        sohan.vy = JUMP_VY * 0.9;
+      }
+    }
+    sohan.vy += GRAVITY;
+  }
+
+  sohan.x += sohan.vx;
+  sohan.y += sohan.vy;
+  resolvePlatformY(sohan, ld);
+
+  // taunt timer
+  sohan.tauntTimer--;
+  if (sohan.tauntTimer <= 0) {
+    sohan.taunt = TAUNTS[Math.floor(Math.random() * TAUNTS.length)];
+    sohan.tauntTimer = ld.tauntFreq + Math.floor(Math.random() * 60);
+  }
+}
+
+/* ── COLLISION CHECK ─────────────────────────────────────────────────── */
+function checkCatch() {
+  return (
+    player.x < sohan.x + sohan.w &&
+    player.x + player.w > sohan.x &&
+    player.y < sohan.y + sohan.h &&
+    player.y + player.h > sohan.y
+  );
+}
+
+function checkExit(ld) {
+  const e = ld.exit;
+  return (
+    player.x < e.x + e.w &&
+    player.x + player.w > e.x &&
+    player.y < e.y + e.h &&
+    player.y + player.h > e.y
+  );
+}
+
+/* ── DRAW ─────────────────────────────────────────────────────────────── */
+const STICKMAN_COL = '#88aaff';
+
+function drawStickman(cx, by, col, scale = 1) {
+  const s = scale;
+  ctx.save();
+  ctx.strokeStyle = col;
+  ctx.lineWidth = 2 * s;
+  ctx.lineCap = 'round';
+  // head
+  ctx.beginPath(); ctx.arc(cx, by - 18*s, 5*s, 0, Math.PI*2); ctx.stroke();
+  // body
+  ctx.beginPath(); ctx.moveTo(cx, by-13*s); ctx.lineTo(cx, by-4*s); ctx.stroke();
+  // legs (walk bob)
+  const legPhase = Date.now() * 0.008;
+  ctx.beginPath();
+  ctx.moveTo(cx, by-4*s);
+  ctx.lineTo(cx - 5*s, by + Math.sin(legPhase)*3*s);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx, by-4*s);
+  ctx.lineTo(cx + 5*s, by - Math.sin(legPhase)*3*s);
+  ctx.stroke();
+  // arms
+  ctx.beginPath();
+  ctx.moveTo(cx - 6*s, by-10*s); ctx.lineTo(cx + 6*s, by-8*s); ctx.stroke();
+  ctx.restore();
+}
+
+function drawSohanChar(ld) {
+  const cx = sohan.x + sohan.w / 2;
+  const by = sohan.y + sohan.h;
+  const sc = SC();
+
+  ctx.save();
+  ctx.translate(cx * sc, by * sc);
+
+  // bob
+  const bob = Math.sin(sohan.bobT) * 2;
+  ctx.translate(0, bob);
+
+  // rainbow aura
+  const auR = 22;
+  PRIDE.forEach((col, i) => {
+    const a0 = (i / PRIDE.length) * Math.PI * 2 + sohan.rainbowT * Math.PI * 2;
+    const a1 = ((i + 1) / PRIDE.length) * Math.PI * 2 + sohan.rainbowT * Math.PI * 2;
+    ctx.strokeStyle = col; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.arc(0, -18, auR, a0, a1); ctx.stroke();
+  });
+
+  // photo face or stickman
+  if (portrait.complete && portrait.naturalWidth > 0) {
+    const r = 10;
+    ctx.save();
+    ctx.beginPath(); ctx.arc(0, -22, r, 0, Math.PI*2); ctx.clip();
+    ctx.drawImage(portrait, -r, -32, r*2, r*2);
+    ctx.restore();
+  } else {
+    ctx.strokeStyle = '#FF4DAD'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0, -22, 6, 0, Math.PI*2); ctx.stroke();
+  }
+
+  // crown
+  ctx.font = `${14}px serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('👑', 0, -36);
+
+  // body
+  ctx.strokeStyle = '#FF4DAD'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+  const legP = Date.now() * 0.01;
+  // torso
+  ctx.beginPath(); ctx.moveTo(0,-13); ctx.lineTo(0,-2); ctx.stroke();
+  // legs
+  ctx.beginPath(); ctx.moveTo(0,-2); ctx.lineTo(-6, Math.sin(legP)*4); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,-2); ctx.lineTo(6, -Math.sin(legP)*4); ctx.stroke();
+  // arms (reaching for player)
+  const armDir = player.x > sohan.x ? 1 : -1;
+  ctx.beginPath(); ctx.moveTo(0,-9); ctx.lineTo(8*armDir,-5); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,-9); ctx.lineTo(-5*armDir,-7); ctx.stroke();
+
+  ctx.restore();
+
+  // speech bubble
+  if (sohan.taunt && sohan.tauntTimer > 0) {
+    const bubAlpha = Math.min(1, sohan.tauntTimer / 40);
+    ctx.save();
+    ctx.globalAlpha = bubAlpha;
+    const tx = Math.min(GW * sc - 10, Math.max(10, cx * sc));
+    const ty = (sohan.y - 40) * sc;
+    const maxW = 180;
+    ctx.font = `bold ${11}px Inter, sans-serif`;
+    let tw = Math.min(ctx.measureText(sohan.taunt).width + 16, maxW);
+    const bh = 26;
+    const bx = tx - tw / 2;
+    const by2 = ty - bh;
+    ctx.fillStyle = 'rgba(10,0,25,0.9)';
+    ctx.strokeStyle = '#FF4DAD';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.roundRect(bx, by2, tw, bh, 8); ctx.fill(); ctx.stroke();
+    // tail
+    ctx.beginPath(); ctx.moveTo(tx - 5, by2 + bh); ctx.lineTo(tx, by2 + bh + 7); ctx.lineTo(tx + 5, by2 + bh); ctx.fill();
+    ctx.fillStyle = '#f0f0ff';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const disp = sohan.taunt.length > 26 ? sohan.taunt.slice(0,25)+'…' : sohan.taunt;
+    ctx.fillText(disp, bx + tw/2, by2 + bh/2);
+    ctx.restore();
+  }
+}
+
+function draw() {
+  if (!gameRunning) return;
+  const ld = getLevelData();
+  const sc = SC();
+
+  ctx.save();
+  ctx.scale(sc, sc);
+
+  // Background
+  ctx.fillStyle = ld.bg;
+  ctx.fillRect(0, 0, GW, GH);
+
+  // Platforms
+  ld.platforms.forEach(p => {
+    const g = ctx.createLinearGradient(p.x, p.y, p.x, p.y + p.h);
+    g.addColorStop(0, '#2a2a4a'); g.addColorStop(1, '#1a1a30');
+    ctx.fillStyle = g;
+    ctx.fillRect(p.x, p.y, p.w, p.h);
+    // rainbow top edge
+    const rg = ctx.createLinearGradient(p.x, p.y, p.x + p.w, p.y);
+    PRIDE.forEach((c,i) => rg.addColorStop(i/(PRIDE.length-1), c));
+    ctx.fillStyle = rg;
+    ctx.fillRect(p.x, p.y, p.w, 2);
+  });
+
+  // Ladders
+  ld.ladders.forEach(l => {
+    ctx.strokeStyle = '#AA00FF';
+    ctx.lineWidth = 2;
+    // sides
+    ctx.beginPath(); ctx.moveTo(l.x+2, l.y); ctx.lineTo(l.x+2, l.y+l.h); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(l.x+10, l.y); ctx.lineTo(l.x+10, l.y+l.h); ctx.stroke();
+    // rungs
+    ctx.strokeStyle = '#6600aa';
+    ctx.lineWidth = 1.5;
+    for (let ry = l.y+8; ry < l.y+l.h; ry += 12) {
+      ctx.beginPath(); ctx.moveTo(l.x+2, ry); ctx.lineTo(l.x+10, ry); ctx.stroke();
+    }
+  });
+
+  // Exit
+  const e = ld.exit;
+  const exitPulse = 0.6 + 0.4 * Math.sin(Date.now() * 0.004);
+  ctx.save();
+  ctx.globalAlpha = exitPulse;
+  const eg = ctx.createLinearGradient(e.x, e.y, e.x+e.w, e.y+e.h);
+  PRIDE.forEach((c,i) => eg.addColorStop(i/(PRIDE.length-1), c));
+  ctx.fillStyle = eg;
+  ctx.fillRect(e.x, e.y, e.w, e.h);
+  ctx.restore();
+  ctx.font = 'bold 11px Inter';
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('EXIT', e.x + e.w/2, e.y + e.h/2);
+
+  ctx.restore();
+
+  // Sohan (drawn at canvas scale)
+  drawSohanChar(ld);
+
+  ctx.save();
+  ctx.scale(sc, sc);
+
+  // Player stickman
+  const pcx = player.x + player.w/2;
+  const pby = player.y + player.h;
+  drawStickman(pcx, pby, STICKMAN_COL, 1);
+
+  ctx.restore();
+}
+
+/* ── MAIN LOOP ────────────────────────────────────────────────────────── */
+function loop() {
+  if (!gameRunning) { requestAnimationFrame(loop); return; }
+  const ld = getLevelData();
+
+  if (!caught && !levelComplete) {
+    updatePlayer(ld);
+    updateSohan(ld);
+
+    // Check caught
+    if (checkCatch()) {
+      caught = true;
+      livesLostThisLevel++;
+      lives--;
+      if (currentLevel === 0) level1FirstTry = false;
+      updateUI();
+      setTimeout(() => {
+        if (lives <= 0) {
+          gameRunning = false;
+          showOverlay('gameover-overlay');
+        } else {
+          initLevel();
+        }
+      }, 600);
+    }
+
+    // Check exit
+    if (checkExit(ld)) {
+      levelComplete = true;
+      escapesThisLevel++;
+
+      // Check achievements
+      const elapsed = (Date.now() - levelStartTime) / 1000;
+      if (elapsed < 10) unlock('speedrun');
+      const dist = Math.hypot(player.x - sohan.x, player.y - sohan.y);
+      if (dist < 30) unlock('close_call');
+      if (livesLostThisLevel === 0) unlock('untouchable');
+
+      updateUI();
+
+      if (escapesThisLevel >= ld.escapesNeeded) {
+        // level done
+        setTimeout(() => {
+          if (currentLevel === 0 && level1FirstTry) unlock('pacifist');
+          if (currentLevel >= 2) unlock('lvl3');
+          if (currentLevel >= 4) {
+            unlock('survivor');
+            showOverlay('win-overlay');
+          } else {
+            showLevelComplete(currentLevel + 1);
+          }
+        }, 500);
+      } else {
+        // need more escapes
+        setTimeout(() => {
+          levelStartTime = Date.now();
+          const ldx = getLevelData();
+          player.x = ldx.playerStartX; player.y = ldx.playerStartY;
+          player.vx = 0; player.vy = 0;
+          sohan.x = ldx.sohanStartX; sohan.y = ldx.playerStartY;
+          sohan.vx = 0; sohan.vy = 0;
+          caught = false; levelComplete = false;
+          livesLostThisLevel = 0;
+          updateUI();
+        }, 600);
+      }
+    }
+  }
+
+  draw();
+  requestAnimationFrame(loop);
+}
+
+/* ── OVERLAYS ─────────────────────────────────────────────────────────── */
+function showOverlay(id) {
+  document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function showLevelComplete(nextLvl) {
+  const msgs = [
+    ['✨','You Escaped!','Sohan is catching his breath. For now.'],
+    ['🌈','Still Free!','Sohan is updating his playlist to chase you harder.'],
+    ['💨','Level 3 Survived!','Sohan: "I\'m not giving up on us." You: 🏃'],
+    ['😤','One More Level!','Sohan has hired a personal trainer for this.'],
+    ['🏆','FINAL LEVEL!','Level 5 is basically impossible. You\'re warned.'],
+  ];
+  const m = msgs[Math.min(nextLvl - 1, msgs.length - 1)];
+  document.getElementById('lc-emoji').textContent = m[0];
+  document.getElementById('lc-title').textContent = m[1];
+  document.getElementById('lc-sub').textContent = m[2];
+  showOverlay('levelcomplete-overlay');
+}
+
+/* ── BUTTON WIRING ────────────────────────────────────────────────────── */
+document.getElementById('start-btn').addEventListener('click', () => {
+  currentLevel = 0; lives = 3; level1FirstTry = true;
+  initLevel();
+  gameRunning = true;
+  showOverlay(''); // hide all
+  document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+});
+
+document.getElementById('next-btn').addEventListener('click', () => {
+  currentLevel++;
+  lives = Math.min(3, lives + 1); // refill one life between levels
+  initLevel();
+  gameRunning = true;
+  document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+});
+
+document.getElementById('retry-btn').addEventListener('click', () => {
+  currentLevel = 0; lives = 3; level1FirstTry = true;
+  initLevel();
+  gameRunning = true;
+  document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+});
+
+document.getElementById('win-restart-btn').addEventListener('click', () => {
+  currentLevel = 0; lives = 3; level1FirstTry = true;
+  initLevel();
+  gameRunning = true;
+  document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+});
+
+document.getElementById('go-home-btn').addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
+document.getElementById('win-home-btn').addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
+
+/* ── KEYBOARD ─────────────────────────────────────────────────────────── */
+window.addEventListener('keydown', e => {
+  keys[e.key] = true;
+  if ([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+});
+window.addEventListener('keyup', e => { keys[e.key] = false; });
+
+/* ── MOBILE BUTTONS ───────────────────────────────────────────────────── */
+function holdBtn(id, key) {
+  const el = document.getElementById(id);
+  const setPressed = (v) => {
+    mobileKeys[key] = v;
+    if (v) el.classList.add('pressed'); else el.classList.remove('pressed');
+  };
+  el.addEventListener('touchstart', e => { e.preventDefault(); setPressed(true); }, {passive:false});
+  el.addEventListener('touchend',   e => { e.preventDefault(); setPressed(false); }, {passive:false});
+  el.addEventListener('mousedown',  () => setPressed(true));
+  el.addEventListener('mouseup',    () => setPressed(false));
+  el.addEventListener('mouseleave', () => setPressed(false));
+}
+holdBtn('btn-left',  'left');
+holdBtn('btn-right', 'right');
+holdBtn('btn-jump',  'jump');
+
+/* ── START LOOP ───────────────────────────────────────────────────────── */
+requestAnimationFrame(loop);
+
+})();
+</script>
+</body>
+</html>

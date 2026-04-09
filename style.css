@@ -884,19 +884,89 @@ blockquote cite {
 }
 .meme-sub { font-size: 0.8rem; color: var(--muted); font-style: italic; position: relative; }
 
+/* ─── Games Section ──────────────────────────────────────────────────────── */
+.games-section {
+  padding: 60px 24px 48px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.games-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.game-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.08);
+  text-decoration: none;
+  color: inherit;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  position: relative;
+  overflow: hidden;
+}
+.game-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,77,173,0.08), rgba(170,0,255,0.08), rgba(41,121,255,0.08));
+  opacity: 0;
+  transition: opacity .3s;
+}
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 40px rgba(170,0,255,0.15);
+  border-color: rgba(170,0,255,0.4);
+}
+.game-card:hover::before { opacity: 1; }
+.game-card-icon {
+  font-size: 2.6rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.game-card-body { flex: 1; position: relative; }
+.game-card-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.game-card-body p { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+.game-card-cta {
+  font-size: .88rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #FF4DAD, #AA00FF, #2979FF);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 3s linear infinite;
+  flex-shrink: 0;
+  position: relative;
+}
+
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 720px) {
-  .nav { padding: 12px 20px; gap: 16px; }
+  .nav { padding: 12px 16px; gap: 12px; }
   .nav-links { display: none; }
   .nav-flags { font-size: 1rem; }
-  .hero { padding: 56px 20px 56px; }
-  .hero-content { flex-direction: column; align-items: flex-start; gap: 40px; }
-  .hero-photo { width: 220px; height: 295px; }
+  .hero { padding: 40px 16px 48px; }
+  .hero-content { flex-direction: column; align-items: center; gap: 32px; text-align: center; }
+  .hero-photo { width: 200px; height: 270px; }
+  .hero-flags { justify-content: center; }
+  .hero-buttons { justify-content: center; }
   .pride-ring { inset: -4px; }
   .pride-ring-2 { inset: -9px; }
   .about-strip { padding: 48px 20px; }
-  .pride-stats { gap: 24px; }
-  .cards-section { padding: 48px 20px; }
-  blockquote { padding: 24px 24px; font-size: 1.05rem; }
+  .pride-stats { gap: 20px; }
+  .cards-section { padding: 40px 16px; }
+  blockquote { padding: 24px 20px; font-size: 1rem; }
   .flags-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .games-section { padding: 40px 16px 32px; }
+  .game-card { padding: 18px 20px; }
+  .game-card-icon { font-size: 2rem; }
 }
