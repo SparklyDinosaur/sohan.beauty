@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UC9 — sohan.beauty</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="uc9.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+  <div class="rainbow-bar"></div>
+
+  <div class="pride-marquee" aria-hidden="true">
+    <span class="marquee-inner">
+      🏳️‍🌈 &nbsp; UC9 &nbsp; 🏳️‍🌈 &nbsp; GAY PRIDE &nbsp; 🏳️‍🌈 &nbsp; UC9 &nbsp; 🏳️‍🌈 &nbsp; LOVE WINS &nbsp;
+      🏳️‍🌈 &nbsp; UC9 &nbsp; 🏳️‍🌈 &nbsp; GAY PRIDE &nbsp; 🏳️‍🌈 &nbsp; UC9 &nbsp; 🏳️‍🌈 &nbsp; LOVE WINS &nbsp;
+      🏳️‍🌈 &nbsp; UC9 &nbsp; 🏳️‍🌈 &nbsp; GAY PRIDE &nbsp; 🏳️‍🌈 &nbsp; UC9 &nbsp; 🏳️‍🌈 &nbsp; LOVE WINS &nbsp;
+    </span>
+  </div>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">sohan.beauty</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="uc9.html">UC9</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="flags.html">Pride Flags</a></li>
+      <li><a href="memes.html">Memes</a></li>
+    </ul>
+    <div class="nav-flags">🏳️‍🌈🏳️‍⚧️💖</div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="uc9-hero">
+    <div class="uc9-hero-bg" aria-hidden="true">
+      <div class="uc9-orb uc9-orb-1"></div>
+      <div class="uc9-orb uc9-orb-2"></div>
+      <div class="uc9-orb uc9-orb-3"></div>
+    </div>
+
+    <div class="uc9-hero-content">
+      <!-- SVG Logo -->
+      <div class="uc9-logo-wrap">
+        <svg class="uc9-svg-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="UC9 Logo">
+          <!-- Outer rainbow ring -->
+          <circle cx="100" cy="100" r="95" fill="none" stroke="url(#rainbowStroke)" stroke-width="8"/>
+          <!-- Inner glow circle -->
+          <circle cx="100" cy="100" r="82" fill="url(#innerGlow)" opacity="0.3"/>
+          <!-- Pride heart in centre -->
+          <path d="M100 130 C60 105, 55 70, 80 60 C90 56, 100 65, 100 65 C100 65, 110 56, 120 60 C145 70, 140 105, 100 130Z"
+                fill="url(#heartGrad)" filter="url(#glow)"/>
+          <!-- UC9 text -->
+          <text x="100" y="165" text-anchor="middle" font-family="Georgia, serif"
+                font-size="22" font-weight="900" fill="white" letter-spacing="4">UC9</text>
+          <defs>
+            <linearGradient id="rainbowStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#FF003C"/>
+              <stop offset="20%"  stop-color="#FF8C00"/>
+              <stop offset="40%"  stop-color="#FFE500"/>
+              <stop offset="60%"  stop-color="#00C853"/>
+              <stop offset="80%"  stop-color="#2979FF"/>
+              <stop offset="100%" stop-color="#AA00FF"/>
+            </linearGradient>
+            <radialGradient id="innerGlow" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#AA00FF"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#FF003C"/>
+              <stop offset="50%"  stop-color="#FF4DAD"/>
+              <stop offset="100%" stop-color="#AA00FF"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="uc9-hero-text">
+        <p class="hero-subtitle">✦ Sohan's Pride Group ✦</p>
+        <h1><span class="gradient-text">UC9</span></h1>
+        <p class="uc9-tagline">
+          A community built on love, pride, and the unshakeable belief that being gay
+          is something to celebrate — loudly, joyfully, and together.
+        </p>
+        <div class="uc9-badges">
+          <span class="badge badge-red">🏳️‍🌈 Gay Pride</span>
+          <span class="badge badge-blue">💙 Community</span>
+          <span class="badge badge-violet">✨ Chosen Family</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="section-divider"></div>
+
+  <!-- What is UC9 -->
+  <section class="uc9-about container">
+    <div class="uc9-about-text">
+      <h2>What is <span class="gradient-text">UC9</span>?</h2>
+      <p>
+        UC9 is Sohan's gay pride group — a tight-knit circle of queer people and allies
+        who show up for each other unconditionally. It's a chosen family built on
+        authenticity, unapologetic self-expression, and an unending supply of gay memes.
+      </p>
+      <p>
+        We believe that queer joy is radical. That visibility matters. That no one should
+        have to shrink themselves to make anyone else comfortable. UC9 is the space where
+        we get to be exactly, fully, gloriously ourselves.
+      </p>
+      <a href="blog.html" class="btn-primary" style="margin-top: 8px; display: inline-block;">Read the Blog</a>
+    </div>
+
+    <!-- SVG graphic: rainbow arch -->
+    <div class="uc9-graphic-wrap">
+      <svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg" class="uc9-arch-svg" aria-hidden="true">
+        <!-- Rainbow arch stripes -->
+        <path d="M20 260 Q160 20 300 260" fill="none" stroke="#FF003C" stroke-width="18" stroke-linecap="round"/>
+        <path d="M36 260 Q160 44 284 260" fill="none" stroke="#FF8C00" stroke-width="18" stroke-linecap="round"/>
+        <path d="M52 260 Q160 68 268 260" fill="none" stroke="#FFE500" stroke-width="18" stroke-linecap="round"/>
+        <path d="M68 260 Q160 92 252 260" fill="none" stroke="#00C853" stroke-width="18" stroke-linecap="round"/>
+        <path d="M84 260 Q160 116 236 260" fill="none" stroke="#2979FF" stroke-width="18" stroke-linecap="round"/>
+        <path d="M100 260 Q160 140 220 260" fill="none" stroke="#AA00FF" stroke-width="18" stroke-linecap="round"/>
+        <!-- Cloud base -->
+        <ellipse cx="160" cy="262" rx="145" ry="18" fill="#0f0f1a"/>
+        <!-- Stars -->
+        <text x="60"  y="80"  font-size="20" fill="#FFE500" opacity="0.9">★</text>
+        <text x="230" y="95"  font-size="16" fill="#FF4DAD" opacity="0.9">★</text>
+        <text x="155" y="30"  font-size="14" fill="#00E5FF" opacity="0.8">✦</text>
+        <text x="100" y="50"  font-size="12" fill="#FF8C00" opacity="0.7">✦</text>
+        <text x="200" y="60"  font-size="12" fill="#AA00FF" opacity="0.7">✦</text>
+      </svg>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Values -->
+  <section class="uc9-values">
+    <div class="container">
+      <h2 style="text-align:center; font-family:'Playfair Display',serif; font-size: clamp(1.8rem,4vw,2.6rem); margin-bottom: 48px;">
+        What <span class="gradient-text">UC9</span> Stands For
+      </h2>
+      <div class="values-grid">
+
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 50 C10 35, 8 15, 22 10 C27 8, 30 15, 30 15 C30 15, 33 8, 38 10 C52 15, 50 35, 30 50Z"
+                    fill="url(#hg1)"/>
+              <defs>
+                <linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FF003C"/>
+                  <stop offset="100%" stop-color="#FF4DAD"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>Radical Love</h3>
+          <p>We love each other fiercely and without condition. In UC9, love is never something you have to earn.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="22" fill="none" stroke="url(#sg1)" stroke-width="5"/>
+              <circle cx="30" cy="30" r="10" fill="url(#sg2)"/>
+              <defs>
+                <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFE500"/>
+                  <stop offset="100%" stop-color="#FF8C00"/>
+                </linearGradient>
+                <radialGradient id="sg2">
+                  <stop offset="0%" stop-color="#FFE500"/>
+                  <stop offset="100%" stop-color="#FF8C00"/>
+                </radialGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>Full Visibility</h3>
+          <p>No hiding. No toning it down. Every member of UC9 gets to take up exactly as much space as they want.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <!-- Three overlapping circles = community -->
+              <circle cx="22" cy="32" r="16" fill="url(#cg1)" opacity="0.75"/>
+              <circle cx="38" cy="32" r="16" fill="url(#cg2)" opacity="0.75"/>
+              <circle cx="30" cy="20" r="16" fill="url(#cg3)" opacity="0.75"/>
+              <defs>
+                <linearGradient id="cg1"><stop stop-color="#2979FF"/><stop offset="1" stop-color="#00E5FF"/></linearGradient>
+                <linearGradient id="cg2"><stop stop-color="#AA00FF"/><stop offset="1" stop-color="#FF4DAD"/></linearGradient>
+                <linearGradient id="cg3"><stop stop-color="#00C853"/><stop offset="1" stop-color="#2979FF"/></linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>Chosen Family</h3>
+          <p>UC9 is the people who show up. The group chat that never sleeps. The crew that has your back, always.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <!-- Star / celebration -->
+              <polygon points="30,5 36,22 54,22 40,33 45,50 30,40 15,50 20,33 6,22 24,22"
+                       fill="url(#stg1)"/>
+              <defs>
+                <linearGradient id="stg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFE500"/>
+                  <stop offset="50%" stop-color="#FF8C00"/>
+                  <stop offset="100%" stop-color="#FF003C"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>Gay Joy</h3>
+          <p>We celebrate. We dance. We laugh loudly. Joy is resistance, and UC9 is relentlessly, defiantly joyful.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <!-- Shield = safety -->
+              <path d="M30 5 L52 15 L52 32 C52 44, 30 55, 30 55 C30 55, 8 44, 8 32 L8 15 Z"
+                    fill="url(#shg1)"/>
+              <path d="M22 30 L28 36 L40 22" stroke="white" stroke-width="3.5"
+                    stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <defs>
+                <linearGradient id="shg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2979FF"/>
+                  <stop offset="100%" stop-color="#AA00FF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>Safe Space</h3>
+          <p>UC9 is a place where you don't have to explain yourself. You are already accepted, exactly as you are.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rainbow flag waves -->
+              <rect x="8" y="10" width="44" height="7"  rx="2" fill="#FF003C"/>
+              <rect x="8" y="19" width="44" height="7"  rx="2" fill="#FF8C00"/>
+              <rect x="8" y="28" width="44" height="7"  rx="2" fill="#FFE500"/>
+              <rect x="8" y="37" width="44" height="7"  rx="2" fill="#00C853"/>
+              <rect x="8" y="46" width="44" height="7"  rx="2" fill="#2979FF"/>
+            </svg>
+          </div>
+          <h3>Pride Always</h3>
+          <p>Not just in June. Every day is pride in UC9. Every outfit, every post, every existence is a celebration.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Members / vibe section -->
+  <section class="uc9-vibe">
+    <div class="container">
+      <h2 style="text-align:center; font-family:'Playfair Display',serif; font-size: clamp(1.8rem,4vw,2.4rem); margin-bottom: 16px;">
+        The <span class="gradient-text">UC9 Vibe</span>
+      </h2>
+      <p class="uc9-vibe-sub">This is what it feels like to be in UC9</p>
+
+      <div class="vibe-pills">
+        <span class="vibe-pill" style="--c:#FF003C">💃 Dancing at 2am</span>
+        <span class="vibe-pill" style="--c:#FF8C00">🎤 Karaoke nights</span>
+        <span class="vibe-pill" style="--c:#FFE500">💬 4000-message group chat</span>
+        <span class="vibe-pill" style="--c:#00C853">🌈 Pride marches</span>
+        <span class="vibe-pill" style="--c:#2979FF">🎬 Gay movie nights</span>
+        <span class="vibe-pill" style="--c:#AA00FF">💅 Unsolicited fashion opinions</span>
+        <span class="vibe-pill" style="--c:#FF4DAD">🏳️‍🌈 Just existing loudly</span>
+        <span class="vibe-pill" style="--c:#00E5FF">✨ Glitter. Always glitter.</span>
+        <span class="vibe-pill" style="--c:#FF003C">🫂 Being there, no questions asked</span>
+        <span class="vibe-pill" style="--c:#FF8C00">🌟 Hyping each other constantly</span>
+        <span class="vibe-pill" style="--c:#AA00FF">💜 Chosen family dinners</span>
+        <span class="vibe-pill" style="--c:#2979FF">😂 Gay memes, 24/7</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Quote -->
+  <section class="quote-section">
+    <blockquote>
+      "The most courageous act is still to think for yourself. Aloud."
+      <cite>— Coco Chanel &nbsp;·&nbsp; adopted by every gay friend group ever</cite>
+    </blockquote>
+  </section>
+
+  <footer class="footer">
+    <div class="rainbow-bar small"></div>
+    <div class="footer-flags" aria-hidden="true">🏳️‍🌈 🏳️‍⚧️ ❤️‍🔥 💜 💙 💛 💖</div>
+    <p>Made with 🏳️‍🌈 by <strong>Sohan</strong> &nbsp;·&nbsp; sohan.beauty &nbsp;·&nbsp; <strong>UC9 forever</strong></p>
+  </footer>
+
+  <script src="pride.js"></script>
+</body>
+</html>
