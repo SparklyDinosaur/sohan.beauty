@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pong vs Sohan — sohan.beauty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red:#FF003C;--orange:#FF8C00;--yellow:#FFE500;
+      --green:#00C853;--blue:#2979FF;--violet:#AA00FF;--pink:#FF4DAD;
+    }
+    body {
+      background: #05050f;
+      color: #f0f0ff;
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Nav - minimal, no effects */
+    .pong-nav {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 28px;
+      background: rgba(5,5,15,0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .pong-nav a {
+      color: #8888bb;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color .2s;
+    }
+    .pong-nav a:hover { color: #f0f0ff; }
+    .pong-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #FF4DAD, #AA00FF, #2979FF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* Game wrapper */
+    .game-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      width: 100%;
+    }
+
+    /* Score bar */
+    .score-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 700px;
+    }
+    .score-player {
+      text-align: center;
+      flex: 1;
+    }
+    .score-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #8888bb;
+      margin-bottom: 4px;
+    }
+    .score-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .score-you  .score-num { color: #2979FF; }
+    .score-sohan .score-num {
+      background: linear-gradient(90deg, #FF003C, #FF8C00, #FFE500, #00C853, #2979FF, #AA00FF);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 2s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+    .score-vs { color: #444466; font-weight: 700; font-size: 1.2rem; flex-shrink: 0; }
+
+    /* Canvas */
+    #pong {
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #080814;
+      display: block;
+      max-width: 100%;
+      touch-action: none;
+    }
+
+    /* Rainbow border on canvas */
+    .canvas-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .canvas-wrap::before {
+      content:'';position:absolute;inset:-3px;border-radius:14px;
+      background:linear-gradient(135deg,#FF003C,#FF8C00,#FFE500,#00C853,#2979FF,#AA00FF,#FF4DAD);
+      background-size:300% 300%;
+      animation:border-spin 4s linear infinite;
+      z-index:-1;
+    }
+    @keyframes border-spin{to{background-position:300% 300%;}}
+
+    /* Controls hint */
+    .controls {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #555577;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .controls span { color: #8888bb; font-weight: 600; }
+
+    /* Sohan avatar label */
+    .avatars {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 700px;
+      padding: 0 4px;
+      margin-bottom: 6px;
+    }
+    .avatar-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .avatar-label.you  { color: #2979FF; }
+    .avatar-label.sohan{ color: #FF4DAD; }
+    .avatar-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .avatar-label.you   .avatar-dot { background: #2979FF; }
+    .avatar-label.sohan .avatar-dot { background: #FF4DAD; }
+
+    /* Win/lose overlay */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      text-align: center;
+      padding: 24px;
+    }
+    #overlay.hidden { display: none; }
+    .overlay-emoji { font-size: 5rem; margin-bottom: 16px; animation: pop .4s ease; }
+    @keyframes pop { from{transform:scale(0)}to{transform:scale(1)} }
+    .overlay-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #FF003C, #FF8C00, #FFE500, #00C853, #2979FF, #AA00FF);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 2s linear infinite;
+    }
+    .overlay-sub { font-size: 1.05rem; color: #aaa; margin-bottom: 8px; max-width: 400px; line-height: 1.6; }
+    .overlay-sohan-img {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      object-fit: cover; object-position: top;
+      margin: 16px 0;
+      border: 3px solid transparent;
+      background: linear-gradient(#05050f,#05050f) padding-box,
+                  linear-gradient(135deg,#FF003C,#AA00FF) border-box;
+      box-shadow: 0 0 30px rgba(255,77,173,0.5);
+    }
+    .overlay-btn {
+      margin-top: 24px;
+      padding: 14px 36px;
+      background: linear-gradient(135deg, #FF1493, #AA00FF);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .overlay-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,20,147,0.5); }
+  </style>
+</head>
+<body>
+
+  <!-- Win/Lose overlay -->
+  <div id="overlay" class="hidden">
+    <div class="overlay-emoji" id="overlay-emoji">🏓</div>
+    <img src="assets/sohan3.jpg" class="overlay-sohan-img" alt="Sohan" id="overlay-img" />
+    <div class="overlay-title" id="overlay-title">Sohan Wins!</div>
+    <p class="overlay-sub" id="overlay-sub">Of course. Did you really think you had a chance? 💅</p>
+    <button class="overlay-btn" id="overlay-btn">Play Again 🏓</button>
+  </div>
+
+  <!-- Minimal nav -->
+  <nav class="pong-nav">
+    <a href="index.html">← Back to sohan.beauty</a>
+    <span class="pong-logo">sohan.beauty</span>
+    <span style="color:#444466;font-size:.85rem;">🏳️‍🌈</span>
+  </nav>
+
+  <div class="game-wrap">
+    <!-- Score -->
+    <div class="score-bar">
+      <div class="score-player score-you">
+        <div class="score-name">You</div>
+        <div class="score-num" id="score-you">0</div>
+      </div>
+      <div class="score-vs">VS</div>
+      <div class="score-player score-sohan">
+        <div class="score-name">Sohan 👑</div>
+        <div class="score-num" id="score-sohan">0</div>
+      </div>
+    </div>
+
+    <!-- Avatar labels -->
+    <div class="avatars">
+      <div class="avatar-label you"><div class="avatar-dot"></div>Your Paddle</div>
+      <div class="avatar-label sohan">Sohan's Paddle<div class="avatar-dot"></div></div>
+    </div>
+
+    <!-- Canvas -->
+    <div class="canvas-wrap">
+      <canvas id="pong"></canvas>
+    </div>
+
+    <p class="controls">
+      <span>↑ ↓ Arrow Keys</span> or <span>W S</span> to move &nbsp;·&nbsp;
+      <span>Mouse / Touch</span> also works
+    </p>
+  </div>
+
+  <script>
+  (() => {
+    /* ── Setup ─────────────────────────────────────────────────────────── */
+    const canvas = document.getElementById('pong');
+    const ctx    = canvas.getContext('2d');
+
+    const BASE_W = 700, BASE_H = 480;
+    let scale = 1;
+
+    function resize() {
+      const maxW = Math.min(window.innerWidth - 32, BASE_W);
+      scale = maxW / BASE_W;
+      canvas.width  = BASE_W * scale;
+      canvas.height = BASE_H * scale;
+      canvas.style.width  = canvas.width  + 'px';
+      canvas.style.height = canvas.height + 'px';
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    /* ── Game constants (in logical coords) ────────────────────────────── */
+    const W = BASE_W, H = BASE_H;
+    const PADDLE_W = 14, PADDLE_H = 90;
+    const BALL_R = 9;
+    const WIN_SCORE = 11;
+    const PADDLE_SPEED = 6;
+
+    /* ── State ──────────────────────────────────────────────────────────── */
+    let scoreYou = 0, scoreSohan = 0;
+    let gameOver = false;
+
+    const you = { x: 18, y: H/2 - PADDLE_H/2, dy: 0 };
+    const ai  = { x: W - 18 - PADDLE_W, y: H/2 - PADDLE_H/2 };
+
+    const ball = { x:0, y:0, vx:0, vy:0, speed:0 };
+    function resetBall(towardAI) {
+      ball.x = W/2; ball.y = H/2;
+      ball.speed = 5.5;
+      const angle = (Math.random() * 0.6 - 0.3);
+      ball.vx = (towardAI ? 1 : -1) * ball.speed * Math.cos(angle);
+      ball.vy = ball.speed * Math.sin(angle);
+    }
+    resetBall(true);
+
+    /* ── AI: programmed to always win ──────────────────────────────────── */
+    // AI tracks perfectly but has a reaction offset that creates drama.
+    // When AI is at risk of losing (you nearly win), it snaps perfectly.
+    let aiReactionOffset = 0; // pixels of deliberate imprecision
+
+    function updateAI() {
+      // How much to let the player be competitive
+      const playerAdvantage = scoreYou - scoreSohan;
+      // If player is catching up, AI gets sharper
+      const sharpness = Math.max(0, Math.min(1, 0.3 + playerAdvantage * 0.25));
+      // Base imprecision: small wobble to look human
+      const targetY = ball.y - PADDLE_H/2;
+      const diff = targetY - ai.y;
+      // AI speed scales with sharpness
+      const maxAISpeed = 4 + sharpness * 5.5; // 4..9.5 px/frame
+      const move = Math.sign(diff) * Math.min(Math.abs(diff), maxAISpeed);
+      ai.y += move;
+      ai.y = Math.max(0, Math.min(H - PADDLE_H, ai.y));
+    }
+
+    /* ── Input ──────────────────────────────────────────────────────────── */
+    const keys = {};
+    window.addEventListener('keydown', e => { keys[e.key] = true; });
+    window.addEventListener('keyup',   e => { keys[e.key] = false; });
+
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      const my = (e.clientY - rect.top) / scale;
+      you.y = Math.max(0, Math.min(H - PADDLE_H, my - PADDLE_H/2));
+    });
+    canvas.addEventListener('touchmove', e => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const my = (e.touches[0].clientY - rect.top) / scale;
+      you.y = Math.max(0, Math.min(H - PADDLE_H, my - PADDLE_H/2));
+    }, { passive: false });
+
+    function handleKeys() {
+      if (keys['ArrowUp']   || keys['w'] || keys['W']) you.y -= PADDLE_SPEED;
+      if (keys['ArrowDown'] || keys['s'] || keys['S']) you.y += PADDLE_SPEED;
+      you.y = Math.max(0, Math.min(H - PADDLE_H, you.y));
+    }
+
+    /* ── Collision: paddle ───────────────────────────────────────────────── */
+    function paddleCollide(paddle, isAI) {
+      if (
+        ball.x - BALL_R < paddle.x + PADDLE_W &&
+        ball.x + BALL_R > paddle.x &&
+        ball.y > paddle.y &&
+        ball.y < paddle.y + PADDLE_H
+      ) {
+        ball.vx *= -1.05; // slight speedup
+        // Angle based on hit position
+        const rel = (ball.y - (paddle.y + PADDLE_H/2)) / (PADDLE_H/2);
+        ball.vy = rel * 6;
+        // Keep ball outside paddle
+        ball.x = isAI ? paddle.x - BALL_R - 1 : paddle.x + PADDLE_W + BALL_R + 1;
+        ball.speed = Math.min(ball.speed * 1.03, 16);
+        // Flash effect on paddle
+        paddle.flash = 6;
+        return true;
+      }
+      return false;
+    }
+
+    /* ── Scoring: AI always wins — prevent player reaching WIN_SCORE ───── */
+    function shouldLetPlayerScore() {
+      // Let player get some points but never win
+      // Allow player scores only when scoreSohan is well ahead
+      if (scoreYou >= WIN_SCORE - 1) return false; // hard cap: player can never reach WIN_SCORE
+      if (scoreSohan - scoreYou >= 3) return Math.random() < 0.55; // AI ahead, be generous
+      return Math.random() < 0.25; // competitive range, rarely let player score
+    }
+
+    /* ── Update ─────────────────────────────────────────────────────────── */
+    let particles = []; // score particles
+
+    function update() {
+      if (gameOver) return;
+
+      handleKeys();
+      updateAI();
+
+      ball.x += ball.vx;
+      ball.y += ball.vy;
+
+      // Top/bottom bounce
+      if (ball.y - BALL_R <= 0) { ball.y = BALL_R+1; ball.vy *= -1; }
+      if (ball.y + BALL_R >= H) { ball.y = H-BALL_R-1; ball.vy *= -1; }
+
+      // Paddle collisions
+      paddleCollide(you, false);
+      paddleCollide(ai, true);
+
+      // Ball out left (AI scores or let player if appropriate)
+      if (ball.x < 0) {
+        scoreParticles(60, H/2, '#FF003C');
+        scoreSohan++;
+        document.getElementById('score-sohan').textContent = scoreSohan;
+        checkWin();
+        if (!gameOver) resetBall(false);
+      }
+
+      // Ball out right — AI may let this through or intercept
+      if (ball.x > W) {
+        if (shouldLetPlayerScore()) {
+          scoreParticles(W-60, H/2, '#2979FF');
+          scoreYou++;
+          document.getElementById('score-you').textContent = scoreYou;
+          checkWin();
+          if (!gameOver) resetBall(true);
+        } else {
+          // AI "magically" saves it — just reset toward AI
+          ball.vx = Math.abs(ball.vx) * -1;
+          ball.x = W - BALL_R - 2;
+        }
+      }
+
+      // Update particles
+      particles.forEach(p => { p.x+=p.vx;p.y+=p.vy;p.vy+=0.2;p.a-=0.025; });
+      particles = particles.filter(p => p.a > 0);
+    }
+
+    function scoreParticles(x, y, col) {
+      for (let i=0;i<20;i++) {
+        const a = (i/20)*Math.PI*2;
+        particles.push({x,y,vx:Math.cos(a)*R(2,7),vy:Math.sin(a)*R(2,7),a:1,c:col,r:R(2,5)});
+      }
+    }
+    function R(a,b){return a+Math.random()*(b-a);}
+
+    /* ── Win check ───────────────────────────────────────────────────────── */
+    const SOHAN_TAUNTS = [
+      'Did you really think you had a chance? 💅',
+      'Sohan never loses. Never has. Never will. 👑',
+      'Close… just kidding, it wasn\'t. 🏳️‍🌈',
+      'You played well! (You didn\'t.) ✨',
+      'Sohan sends his regards. 😂',
+    ];
+    function checkWin() {
+      if (scoreSohan >= WIN_SCORE || scoreYou >= WIN_SCORE) {
+        gameOver = true;
+        setTimeout(showOverlay, 400);
+      }
+    }
+    function showOverlay() {
+      const overlay = document.getElementById('overlay');
+      const sohanWon = scoreSohan >= WIN_SCORE;
+      document.getElementById('overlay-emoji').textContent = sohanWon ? '👑' : '🏆';
+      document.getElementById('overlay-title').textContent = sohanWon ? 'Sohan Wins!' : 'You Win??';
+      document.getElementById('overlay-sub').textContent = sohanWon
+        ? SOHAN_TAUNTS[Math.floor(Math.random()*SOHAN_TAUNTS.length)]
+        : 'Wait… how?? Sohan is offended. Rematch immediately. 😤';
+      overlay.classList.remove('hidden');
+    }
+    document.getElementById('overlay-btn').addEventListener('click', () => {
+      gameOver = false;
+      scoreYou = scoreSohan = 0;
+      document.getElementById('score-you').textContent = '0';
+      document.getElementById('score-sohan').textContent = '0';
+      you.y = H/2 - PADDLE_H/2;
+      ai.y  = H/2 - PADDLE_H/2;
+      resetBall(true);
+      document.getElementById('overlay').classList.add('hidden');
+    });
+
+    /* ── Sohan avatar image ──────────────────────────────────────────────── */
+    const sohanImg = new Image();
+    sohanImg.src = 'assets/sohan3.jpg';
+
+    /* ── Draw ────────────────────────────────────────────────────────────── */
+    const PRIDE_COLS = ['#FF003C','#FF8C00','#FFE500','#00C853','#2979FF','#AA00FF'];
+    let rainbowOffset = 0;
+
+    function draw() {
+      ctx.save();
+      ctx.scale(scale, scale);
+
+      // Background
+      ctx.fillStyle = '#080814';
+      ctx.fillRect(0, 0, W, H);
+
+      // Center dashed line
+      ctx.setLineDash([12, 10]);
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw particles
+      particles.forEach(p => {
+        ctx.globalAlpha = p.a;
+        ctx.fillStyle = p.c;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+
+      // Ball — rainbow cycling colour
+      rainbowOffset = (rainbowOffset + 0.05) % 1;
+      const ballCol = PRIDE_COLS[Math.floor(rainbowOffset * PRIDE_COLS.length)];
+      ctx.fillStyle = ballCol;
+      ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI*2); ctx.fill();
+
+      // Player paddle (blue gradient)
+      const pgrd = ctx.createLinearGradient(you.x, you.y, you.x, you.y+PADDLE_H);
+      pgrd.addColorStop(0,'#2979FF'); pgrd.addColorStop(1,'#00E5FF');
+      ctx.fillStyle = you.flash > 0 ? '#fff' : pgrd;
+      ctx.beginPath();
+      ctx.roundRect(you.x, you.y, PADDLE_W, PADDLE_H, 6);
+      ctx.fill();
+      if (you.flash > 0) you.flash--;
+
+      // AI paddle — Sohan's photo clipped to paddle shape, or rainbow gradient
+      const aiX = ai.x, aiY = ai.y;
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(aiX, aiY, PADDLE_W + 60, PADDLE_H, 6); // wider for photo
+      ctx.clip();
+      if (sohanImg.complete && sohanImg.naturalWidth > 0) {
+        ctx.drawImage(sohanImg, aiX, aiY, PADDLE_W + 60, PADDLE_H);
+        // Tint overlay
+        ctx.fillStyle = 'rgba(255,77,173,0.25)';
+        ctx.fillRect(aiX, aiY, PADDLE_W+60, PADDLE_H);
+      } else {
+        const agrd = ctx.createLinearGradient(aiX, aiY, aiX, aiY+PADDLE_H);
+        agrd.addColorStop(0,'#FF003C'); agrd.addColorStop(0.5,'#FF8C00'); agrd.addColorStop(1,'#AA00FF');
+        ctx.fillStyle = agrd;
+        ctx.fillRect(aiX, aiY, PADDLE_W+60, PADDLE_H);
+      }
+      ctx.restore();
+
+      // Rainbow border on AI paddle
+      const prideGrd = ctx.createLinearGradient(aiX, aiY, aiX, aiY+PADDLE_H);
+      PRIDE_COLS.forEach((c,i) => prideGrd.addColorStop(i/(PRIDE_COLS.length-1),c));
+      ctx.strokeStyle = prideGrd; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.roundRect(aiX, aiY, PADDLE_W+60, PADDLE_H, 6); ctx.stroke();
+
+      // "SOHAN" label above AI paddle
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.fillStyle = '#FF4DAD';
+      ctx.textAlign = 'center';
+      ctx.fillText('SOHAN 👑', aiX + (PADDLE_W+60)/2, aiY - 6);
+
+      // Score flash pulse (show score at top centre briefly)
+      ctx.textAlign = 'center';
+
+      ctx.restore();
+    }
+
+    /* ── Loop ────────────────────────────────────────────────────────────── */
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+  </script>
+</body>
+</html>
