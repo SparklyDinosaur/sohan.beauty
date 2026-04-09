@@ -7,92 +7,181 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- Rainbow stripe header -->
+  <!-- Confetti canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Animated rainbow top bar -->
   <div class="rainbow-bar"></div>
 
+  <!-- Pride emoji marquee -->
+  <div class="pride-marquee" aria-hidden="true">
+    <span class="marquee-inner">
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+    </span>
+  </div>
+
+  <!-- Nav -->
   <nav class="nav">
-    <a href="index.html" class="nav-logo">sohan<span>.beauty</span></a>
+    <a href="index.html" class="nav-logo">sohan.beauty</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="flags.html">Pride Flags</a></li>
       <li><a href="memes.html">Memes</a></li>
     </ul>
-    <div class="nav-pride">🏳️‍🌈</div>
+    <div class="nav-flags">🏳️‍🌈🏳️‍⚧️💖</div>
   </nav>
 
   <!-- Hero -->
   <header class="hero">
+    <!-- Floating decorative emojis -->
+    <span class="float-emoji" aria-hidden="true">🌈</span>
+    <span class="float-emoji" aria-hidden="true">✨</span>
+    <span class="float-emoji" aria-hidden="true">💜</span>
+    <span class="float-emoji" aria-hidden="true">🏳️‍🌈</span>
+    <span class="float-emoji" aria-hidden="true">💖</span>
+    <span class="float-emoji" aria-hidden="true">⭐</span>
+
     <div class="hero-content">
       <div class="hero-photo-wrap">
-        <img src="assets/sohan.jpg" alt="Sohan" class="hero-photo" />
+        <div class="pride-ring-2"></div>
         <div class="pride-ring"></div>
+        <img src="assets/sohan.jpg" alt="Sohan — proudly gay" class="hero-photo" />
       </div>
+
       <div class="hero-text">
-        <h1>Hi, I'm <span class="gradient-text">Sohan</span></h1>
-        <p class="hero-tagline">Proudly gay. Openly me. Here to celebrate love in all its colours.</p>
-        <div class="hero-flags">
+        <p class="hero-subtitle">✦ Proudly Gay ✦</p>
+        <h1>
+          <span class="plain">Hi, I'm </span><br/>
+          <span class="gradient-text">Sohan</span>
+        </h1>
+
+        <div class="hero-stripe" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+
+        <p class="hero-tagline">
+          Unapologetically gay. Loudly proud. Here to celebrate love,
+          community, and the full rainbow spectrum of who we are.
+        </p>
+
+        <div class="hero-flags" aria-label="Pride flags">
           <span title="Rainbow Pride">🏳️‍🌈</span>
-          <span title="Gay Man">💙</span>
-          <span title="Rainbow Heart">❤️‍🔥</span>
           <span title="Trans Pride">🏳️‍⚧️</span>
+          <span title="Rainbow Heart">❤️‍🔥</span>
           <span title="Bisexual Pride">💜</span>
+          <span title="Gay Love">💙</span>
           <span title="Sparkles">✨</span>
         </div>
-        <a href="blog.html" class="btn-primary">Read My Blog</a>
+
+        <div class="hero-buttons">
+          <a href="blog.html" class="btn-primary">Read My Blog</a>
+          <a href="flags.html" class="btn-secondary">Pride Flags →</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- About strip -->
-  <section class="about-strip">
-    <div class="container">
-      <h2>Welcome to my little corner of the internet 🌈</h2>
-      <p>
-        sohan.beauty is a space for gay joy, queer culture, pride flags, community news,
-        and unfiltered homosexual excellence. Pull up a chair. We don't do shame here.
-      </p>
+  <!-- Horizontal mini flag strip -->
+  <section class="flag-strip">
+    <h2 class="gradient-text">Every Flag. Every Identity. Every Colour.</h2>
+    <div class="flag-strip-row">
+      <div class="mini-flag flag-rainbow"   data-name="Rainbow Pride"></div>
+      <div class="mini-flag flag-gay-men"   data-name="Gay Men"></div>
+      <div class="mini-flag flag-lesbian"   data-name="Lesbian"></div>
+      <div class="mini-flag flag-bi"        data-name="Bisexual"></div>
+      <div class="mini-flag flag-trans"     data-name="Transgender"></div>
+      <div class="mini-flag flag-nonbinary" data-name="Non-Binary"></div>
+      <div class="mini-flag flag-pan"       data-name="Pansexual"></div>
+      <div class="mini-flag flag-ace"       data-name="Asexual"></div>
+      <div class="mini-flag flag-fluid"     data-name="Genderfluid"></div>
+      <div class="mini-flag flag-genderqueer" data-name="Genderqueer"></div>
+      <div class="mini-flag flag-intersex"  data-name="Intersex"></div>
+      <div class="mini-flag flag-ally"      data-name="Ally"></div>
     </div>
   </section>
 
-  <!-- Featured cards -->
-  <section class="cards-section container">
+  <div class="section-divider"></div>
+
+  <!-- About + Stats -->
+  <section class="about-strip">
+    <div class="container">
+      <h2>Welcome to my little corner <span class="gradient-text">of the internet</span> 🌈</h2>
+      <p>
+        sohan.beauty is a space for gay joy, queer culture, pride flags, community, and
+        unfiltered homosexual excellence. We celebrate love in every colour. We don't do
+        shame here.
+      </p>
+      <div class="pride-stats">
+        <div class="stat">
+          <span class="stat-num">🏳️‍🌈</span>
+          <span class="stat-label">Openly & Proudly Gay</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">12+</span>
+          <span class="stat-label">Pride Flags Celebrated</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Love to Give</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Unapologetic</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Cards -->
+  <section class="cards-section">
     <a href="blog.html" class="card card-blog">
-      <div class="card-emoji">✍️</div>
+      <div class="card-icon">✍️</div>
       <h3>Gay Blog</h3>
-      <p>Thoughts, stories, and takes from a proudly gay perspective.</p>
+      <p>Thoughts, stories, hot takes, and celebrations from a proudly gay perspective. No filter. No apology.</p>
       <span class="card-link">Read posts →</span>
     </a>
     <a href="flags.html" class="card card-flags">
-      <div class="card-emoji">🏳️‍🌈</div>
+      <div class="card-icon">🏳️‍🌈</div>
       <h3>Pride Flags</h3>
-      <p>Every flag, every identity. Because representation matters.</p>
-      <span class="card-link">See flags →</span>
+      <p>Every flag, every identity, every community. Because representation matters and every colour has a story.</p>
+      <span class="card-link">See all flags →</span>
     </a>
     <a href="memes.html" class="card card-memes">
-      <div class="card-emoji">😂</div>
+      <div class="card-icon">😂</div>
       <h3>Gay Memes</h3>
-      <p>The funniest, most relatable gay content on the internet.</p>
+      <p>The funniest, most relatable gay content on the internet. Scroll, cackle, send to your group chat immediately.</p>
       <span class="card-link">Get the laughs →</span>
     </a>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- Quote -->
   <section class="quote-section">
     <blockquote>
-      "We should indeed keep calm in the face of difference, and live our lives in a state of inclusion and wonder at the diversity of humanity."
+      "We should indeed keep calm in the face of difference, and live our lives in a state
+      of inclusion and wonder at the diversity of humanity."
       <cite>— George Takei</cite>
     </blockquote>
   </section>
 
   <footer class="footer">
     <div class="rainbow-bar small"></div>
-    <p>Made with 🏳️‍🌈 by Sohan &nbsp;·&nbsp; sohan.beauty</p>
+    <div class="footer-flags" aria-hidden="true">🏳️‍🌈 🏳️‍⚧️ ❤️‍🔥 💜 💙 💛 💖</div>
+    <p>Made with 🏳️‍🌈 by <strong>Sohan</strong> &nbsp;·&nbsp; sohan.beauty</p>
   </footer>
 
+  <script src="pride.js"></script>
 </body>
 </html>

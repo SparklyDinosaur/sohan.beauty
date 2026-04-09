@@ -7,27 +7,39 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
+  <canvas id="confetti-canvas"></canvas>
   <div class="rainbow-bar"></div>
 
+  <div class="pride-marquee" aria-hidden="true">
+    <span class="marquee-inner">
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+      🏳️‍🌈 &nbsp; 🏳️‍⚧️ &nbsp; ❤️‍🔥 &nbsp; 💜 &nbsp; 💙 &nbsp; 💛 &nbsp; 🌈 &nbsp; ✨ &nbsp; 💖 &nbsp; 🦋 &nbsp;
+    </span>
+  </div>
+
   <nav class="nav">
-    <a href="index.html" class="nav-logo">sohan<span>.beauty</span></a>
+    <a href="index.html" class="nav-logo">sohan.beauty</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="flags.html">Pride Flags</a></li>
       <li><a href="memes.html">Memes</a></li>
     </ul>
-    <div class="nav-pride">🏳️‍🌈</div>
+    <div class="nav-flags">🏳️‍🌈🏳️‍⚧️💖</div>
   </nav>
 
   <div class="page-header">
-    <h1>🏳️‍🌈 Pride <span class="gradient-text">Flags</span></h1>
-    <p>Every colour tells a story. Every flag represents a community that deserves to be seen.</p>
+    <h1>🏳️‍🌈 <span class="gradient-text">Pride Flags</span></h1>
+    <p>Every colour tells a story. Every flag represents a community that deserves to be seen, celebrated, and loved.</p>
   </div>
+
+  <div class="rainbow-bar small"></div>
 
   <div class="flags-grid">
 
@@ -43,7 +55,7 @@
       <div class="flag-visual flag-gay-men"></div>
       <div class="flag-info">
         <h3>Gay Men's Pride</h3>
-        <p>A flag for gay and bisexual men and men-aligned people, using shades of green, teal, white, blue, and cyan.</p>
+        <p>A flag for gay and bisexual men and men-aligned people, using shades of green, teal, white, and blue.</p>
       </div>
     </div>
 
@@ -59,7 +71,7 @@
       <div class="flag-visual flag-bi"></div>
       <div class="flag-info">
         <h3>Bisexual Pride</h3>
-        <p>Designed by Michael Page in 1998. Pink for same-gender attraction, blue for different-gender attraction, and lavender for attraction to both.</p>
+        <p>Designed by Michael Page in 1998. Pink for same-gender attraction, blue for different-gender attraction, lavender for both.</p>
       </div>
     </div>
 
@@ -83,7 +95,7 @@
       <div class="flag-visual flag-pan"></div>
       <div class="flag-info">
         <h3>Pansexual Pride</h3>
-        <p>Pink, yellow, and blue representing attraction regardless of gender. Love without limits.</p>
+        <p>Pink, yellow, and blue representing attraction regardless of gender. Love without limits — hearts not parts.</p>
       </div>
     </div>
 
@@ -115,7 +127,7 @@
       <div class="flag-visual flag-intersex"></div>
       <div class="flag-info">
         <h3>Intersex Pride</h3>
-        <p>Gold/yellow and purple — colours chosen to avoid gendered associations. The circle represents wholeness and the right to self-determination.</p>
+        <p>Gold and purple — chosen to avoid gendered associations. The circle represents wholeness and the right to self-determination.</p>
       </div>
     </div>
 
@@ -123,7 +135,7 @@
       <div class="flag-visual flag-ally"></div>
       <div class="flag-info">
         <h3>Straight Ally</h3>
-        <p>Black and white stripes with a rainbow "A" shape. For straight and cisgender people who stand with the LGBTQ+ community.</p>
+        <p>Black and white stripes for straight and cisgender people who actively stand with and advocate for the LGBTQ+ community.</p>
       </div>
     </div>
 
@@ -131,8 +143,10 @@
 
   <footer class="footer">
     <div class="rainbow-bar small"></div>
-    <p>Made with 🏳️‍🌈 by Sohan &nbsp;·&nbsp; sohan.beauty</p>
+    <div class="footer-flags" aria-hidden="true">🏳️‍🌈 🏳️‍⚧️ ❤️‍🔥 💜 💙 💛 💖</div>
+    <p>Made with 🏳️‍🌈 by <strong>Sohan</strong> &nbsp;·&nbsp; sohan.beauty</p>
   </footer>
 
+  <script src="pride.js"></script>
 </body>
 </html>
